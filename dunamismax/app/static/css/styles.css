@@ -1,19 +1,221 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
+/* Define the Synthetic Color Palette */
+:root {
+    --synthetic-100: #131C28; /* Darkest Blue - Background */
+    --synthetic-200: #303438;
+    --synthetic-300: #454A4E;
+    --synthetic-400: #a0a3a6;
+    --synthetic-500: #d2cdcb; /* Lightest Text Color */
+}
+
+/* Base Styles */
+html, body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--synthetic-100); /* Dark background */
+    color: var(--synthetic-500); /* Light text for readability */
     margin: 0;
+    padding: 0;
+    height: 100%;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+}
+
+* {
+    box-sizing: border-box; /* Ensure padding and borders are included in dimensions */
+}
+
+/* Wrapper for Centered Content */
+.wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Header Styles */
+header {
+    background-color: var(--synthetic-200); /* Slightly lighter for contrast */
+    padding: 1.5rem 0;
+    border-bottom: 2px solid var(--synthetic-300);
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    color: var(--synthetic-400); /* Accent title color */
+}
+
+header nav {
+    margin-top: 1rem;
+}
+
+header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: var(--synthetic-500); /* Light text */
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+header nav ul li a:hover {
+    background-color: var(--synthetic-300);
+    color: var(--synthetic-100); /* Darker contrast on hover */
+}
+
+/* Main Content */
+main {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background-color: var(--synthetic-200); /* Slightly lighter for content area */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+main h2 {
+    font-size: 2rem;
+    color: var(--synthetic-400);
+    margin-bottom: 1rem;
+}
+
+main p {
+    font-size: 1.1rem;
+    margin: 1rem 0;
+}
+
+/* Footer Styles */
+footer {
+    background-color: var(--synthetic-200);
+    color: var(--synthetic-400);
+    text-align: center;
+    padding: 1.5rem 0;
+    border-top: 2px solid var(--synthetic-300);
+    margin-top: 2rem;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Buttons */
+button {
+    background-color: var(--synthetic-300);
+    color: var(--synthetic-100); /* Dark text for button contrast */
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: var(--synthetic-400); /* Lighter hover effect */
+    transform: scale(1.05);
+}
+
+/* Links */
+a {
+    color: var(--synthetic-400);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: var(--synthetic-500); /* Brighter hover color */
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    background-color: var(--synthetic-200);
+    color: var(--synthetic-500);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table th, table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--synthetic-300);
+}
+
+table th {
+    background-color: var(--synthetic-300);
+    color: var(--synthetic-100);
+    font-weight: bold;
+}
+
+table tr:nth-child(even) {
+    background-color: var(--synthetic-400);
+}
+
+/* Form Styles */
+form {
+    background-color: var(--synthetic-200);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+form label {
+    color: var(--synthetic-400);
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+form input, form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--synthetic-300);
+    border-radius: 4px;
+    background-color: var(--synthetic-100);
+    color: var(--synthetic-500);
+}
+
+form input:focus, form textarea:focus {
+    outline: none;
+    border-color: var(--synthetic-400);
+}
+
+/* Lists */
+ul {
+    list-style: none;
     padding: 0;
 }
 
-header {
-    background-color: #343a40;
-    color: white;
-    padding: 1rem;
+ul li {
+    margin: 0.5rem 0;
 }
 
-footer {
-    text-align: center;
-    padding: 1rem;
-    background-color: #f1f1f1;
+/* Responsive Design */
+@media (max-width: 768px) {
+    header nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    main {
+        padding: 1rem;
+    }
+
+    footer {
+        padding: 1rem;
+    }
 }

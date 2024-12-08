@@ -5,14 +5,28 @@ This is the source code for **DunamisMax.com**, a Flask-based web application.
 ## Project Structure
 
 ```
-DunamisMax.com/
-├── dunamismax/                # Main application directory
-│   ├── venv/                # Virtual environment
-│   ├── static/             # Static files (CSS, JavaScript, images)
-│   ├── templates/          # HTML templates
-│   ├── config.py           # Configuration file
-│   ├── run.py              # Application entry point
-├── requirements.txt          # Python dependencies
+|-- dunamismax.com
+    |-- dunamismax
+        |-- config.py
+        |-- requirements.txt
+        |-- run.py
+        |-- __pycache__
+        |-- app
+            |-- __init__.py
+            |-- forms.py
+            |-- routes.py
+            |-- __pycache__
+            |-- templates
+                |-- base.html
+                |-- blog.html
+                |-- index.html
+            |-- static
+                |-- Images
+                    |-- favicon.ico
+                |-- css
+                    |-- styles.css
+                |-- js
+                    |-- scripts.js
 ```
 
 ## Prerequisites

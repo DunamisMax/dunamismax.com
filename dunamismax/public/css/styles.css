@@ -41,9 +41,9 @@
   --font-size-xl: 1.25rem;
   --font-size-xxl: 1.5rem;
   --font-size-xxxl: 2rem;
-  --line-height-base: 1.6;
+  --line-height-base: 1.8;
 
-  /* Spacing Scale (Using multiples of 0.5rem) */
+  /* Spacing Scale (multiples of 0.5rem) */
   --space-xxs: 0.25rem;
   --space-xs: 0.5rem;
   --space-sm: 1rem;
@@ -74,6 +74,13 @@ body {
   height: 100%;
   line-height: var(--line-height-base);
   scroll-behavior: smooth;
+
+  /* Center all content horizontally, stack elements vertically */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
 }
 
 *,
@@ -118,14 +125,17 @@ a:focus {
 /* ===================================================================
    LAYOUT WRAPPER
    =================================================================== */
+/* The wrapper limits content width and centers text. */
 .wrapper {
-  max-width: 1200px;
+  width: 100%;
+  max-width: 800px;
   margin: 0 auto;
   padding: 0 var(--space-sm);
+  text-align: center;
 }
 
 /* ===================================================================
-   SKIP LINK
+   SKIP LINK (Accessibility)
    =================================================================== */
 .skip-link {
   position: absolute;
@@ -147,16 +157,23 @@ a:focus {
    HEADER
    =================================================================== */
 header {
+  width: 100%;
   background-color: var(--color-surface-a10);
   padding: var(--space-md) 0;
   border-bottom: 2px solid var(--color-surface-mixed-a20);
+}
+
+header .wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 header h1 {
   font-size: var(--font-size-xxxl);
   margin: 0;
   color: var(--color-primary-a40);
-  display: inline-block;
+  font-weight: 700;
 }
 
 header nav {
@@ -165,8 +182,10 @@ header nav {
 
 header nav ul {
   display: flex;
-  justify-content: center;
+  flex-direction: row;
   gap: var(--space-sm);
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 header nav li a {
@@ -189,10 +208,13 @@ header nav li a:focus {
    MAIN CONTENT & SECTIONS
    =================================================================== */
 main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: var(--space-lg) 0;
 }
 
-/* FLASH MESSAGES */
 .flash {
   margin-bottom: var(--space-md);
   padding: var(--space-sm);
@@ -208,20 +230,27 @@ main {
   color: #ffffff;
 }
 
-/* SECTIONS */
+/* Sections: give them a subtle background to stand out */
 section {
+  background-color: var(--color-surface-a10);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg) var(--space-sm);
   margin-bottom: var(--space-lg);
+  box-shadow: var(--shadow-md);
 }
 
 section h2 {
   font-size: var(--font-size-xxl);
   color: var(--color-primary-a30);
   margin-bottom: var(--space-sm);
+  margin-top: 0;
+  font-weight: 600;
 }
 
 section p {
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-lg);
   margin-bottom: var(--space-sm);
+  color: var(--color-text);
 }
 
 /* ===================================================================
@@ -232,11 +261,12 @@ button,
   background-color: var(--color-primary-a20);
   color: var(--color-surface-a0);
   border: none;
-  padding: var(--space-xs) var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-sm);
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-lg);
   cursor: pointer;
   transition: background-color var(--transition-base), transform 0.2s;
+  font-weight: 600;
 }
 button:hover,
 .btn:hover,
@@ -252,6 +282,9 @@ button:focus,
    =================================================================== */
 .form-group {
   margin-bottom: var(--space-md);
+  text-align: left;
+  max-width: 500px;
+  margin: 0 auto var(--space-md) auto;
 }
 
 .form-group label {
@@ -261,15 +294,16 @@ button:focus,
 }
 
 .form-control {
-  width: 100%;
-  padding: var(--space-xs);
-  margin-top: var(--space-xs);
+  width: 80%;
+  padding: var(--space-sm);
+  margin: 0 auto var(--space-md) auto;
   border: 1px solid var(--color-surface-mixed-a20);
   border-radius: var(--radius-sm);
   background-color: var(--color-surface-a0);
   color: var(--color-text);
   font-size: var(--font-size-md);
   transition: border-color var(--transition-base);
+  display: block;
 }
 
 .form-control:focus {
@@ -284,6 +318,7 @@ button:focus,
 .error {
   color: #ff6b6b;
   font-size: var(--font-size-sm);
+  margin-top: -var(--space-xs);
 }
 
 /* ===================================================================
@@ -326,6 +361,7 @@ ul li {
    FOOTER
    =================================================================== */
 footer {
+  width: 100%;
   background-color: var(--color-surface-a10);
   color: var(--color-text-muted);
   text-align: center;
@@ -352,5 +388,6 @@ footer p {
 
   .form-control {
     font-size: var(--font-size-md);
+    width: 100%;
   }
 }

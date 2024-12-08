@@ -9,7 +9,7 @@
 
 /* Base Styles */
 html, body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     background-color: var(--synthetic-100); /* Dark background */
     color: var(--synthetic-500); /* Light text for readability */
     margin: 0;

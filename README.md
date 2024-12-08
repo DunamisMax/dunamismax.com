@@ -1,89 +1,68 @@
 # DunamisMax.com
 
-This is the source code for **DunamisMax.com**, a Flask-based web application.
+This is the source code for **DunamisMax.com**, now rewritten from a Python/Flask-based application into a Node.js/Express.js web application. The project leverages modern best practices, a secure configuration, and a clean codebase for ease of maintenance and scalability.
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Project Structure](#project-structure)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Environment Variables](#environment-variables)
+- [Running the Application](#running-the-application)
+- [Security & Hardening](#security--hardening)
+- [Deployment](#deployment)
+- [License](#license)
+
+## Overview
+
+DunamisMax.com is a dark-themed, secure, and responsive website built using:
+
+- **Node.js & Express.js** for server-side logic
+- **EJS** as the templating engine
+- **Nodemailer** for sending emails
+- **CSRF protection**, **helmet**, and **express-rate-limit** for security
+- **Winston** logging with daily rotation for robust logging
+- **dotenv** for environment variables
+
+## Features
+
+- **Modern Web Stack:** Runs on Node.js and Express.js.
+- **Security Best Practices:** Uses Helmet for enhanced HTTP headers, CSRF protection, and rate-limiting.
+- **Clean UI & Dark Theme:** A cohesive dark theme using custom CSS variables.
+- **Responsive Design:** Optimized for various screen sizes.
+- **Modular & Extensible:** Organized routes, utilities, and views for easy maintenance.
+- **Logging & Monitoring:** Winston-based logging with daily rotation.
+- **EJS Templates:** Easy to maintain and extend server-rendered views.
 
 ## Project Structure
 
 ```bash
-|-- dunamismax.com
-    |-- dunamismax
-        |-- config.py
-        |-- requirements.txt
-        |-- run.py
-        |-- __pycache__
-        |-- app
-            |-- __init__.py
-            |-- forms.py
-            |-- routes.py
-            |-- __pycache__
-            |-- templates
-                |-- base.html
-                |-- blog.html
-                |-- index.html
-            |-- static
-                |-- Images
-                    |-- favicon.ico
-                |-- css
-                    |-- styles.css
-                |-- js
-                    |-- scripts.js
+dunamismax.com/
+└── dunamismax
+    ├── public
+    │   ├── css
+    │   │   └── styles.css
+    │   ├── images
+    │   │   └── favicon.ico
+    │   └── js
+    │       └── scripts.js
+    ├── routes
+    │   └── main.js
+    ├── utils
+    │   ├── email.js
+    │   └── logger.js
+    ├── views
+    │   ├── partials
+    │   │   ├── footer.ejs
+    │   │   └── header.ejs
+    │   ├── 404.ejs
+    │   ├── 500.ejs
+    │   ├── blog.ejs
+    │   ├── contact.ejs
+    │   └── index.ejs
+    ├── .env (not committed)
+    ├── package.json
+    └── server.js
 ```
-
-## Prerequisites
-
-- Python 3.x
-- Virtual environment (recommended)
-
-## Installation
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/yourusername/dunamismax.com.git
-   cd dunamismax.com/dunamismax
-   ```
-
-2. Create and activate a virtual environment:
-
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
-
-3. Install dependencies:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-## Running the Application
-
-### Development Server
-
-To run the development server:
-
-```bash
-flask run --host=0.0.0.0 --port=42069
-```
-
-### Production Server
-
-For production, use Gunicorn:
-
-```bash
-gunicorn -w 4 -b 0.0.0.0:42069 run:app
-```
-
-## Features
-
-- Home page and blog page
-- Responsive design
-- Open Sans font integration
-
-## Deployment
-
-This application can be deployed with a production WSGI server such as Gunicorn, optionally behind a reverse proxy like NGINX.
-
-## License
-
-This project is licensed under the MIT License. See `LICENSE` for details.

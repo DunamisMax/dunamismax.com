@@ -1,18 +1,38 @@
-/* Define the Dark Color Theme */
+/* Define the Dark Theme Color Palette */
 :root {
-    --color-background: #201e26;  /* Darkest color */
-    --color-surface: #35333a;     /* Slightly lighter */
-    --color-border: #4b4950;      /* Medium */
-    --color-accent: #626067;      /* Light */
-    --color-highlight: #7a797e;   /* Lighter */
-    --color-text-muted: #939297;  /* Lightest */
-    --color-text: #ffffff;        /* White text */
+    /* Primary Colors */
+    --color-primary-a0: #baa3ff;
+    --color-primary-a10: #c2adff;
+    --color-primary-a20: #cab7ff;
+    --color-primary-a30: #d2c1ff;
+    --color-primary-a40: #dacbff;
+    --color-primary-a50: #e2d5ff;
+
+    /* Surface Colors */
+    --color-surface-a0: #121212;
+    --color-surface-a10: #282828;
+    --color-surface-a20: #3f3f3f;
+    --color-surface-a30: #575757;
+    --color-surface-a40: #717171;
+    --color-surface-a50: #8b8b8b;
+
+    /* Mixed Surface Colors */
+    --color-surface-mixed-a0: #211f26;
+    --color-surface-mixed-a10: #36343a;
+    --color-surface-mixed-a20: #4c4a50;
+    --color-surface-mixed-a30: #636167;
+    --color-surface-mixed-a40: #7b797e;
+    --color-surface-mixed-a50: #949397;
+
+    /* Text Colors */
+    --color-text: #ffffff; /* White text */
+    --color-text-muted: var(--color-primary-a50); /* Lightest primary tint */
 }
 
 /* Base Styles */
 html, body {
     font-family: 'Open Sans', sans-serif;
-    background-color: var(--color-background);
+    background-color: var(--color-surface-a0); /* Darkest surface color */
     color: var(--color-text);
     margin: 0;
     padding: 0;
@@ -34,16 +54,16 @@ html, body {
 
 /* Header Styles */
 header {
-    background-color: var(--color-surface);
+    background-color: var(--color-surface-a10);
     padding: 1.5rem 0;
-    border-bottom: 2px solid var(--color-border);
+    border-bottom: 2px solid var(--color-surface-mixed-a20);
     text-align: center;
 }
 
 header h1 {
     font-size: 2.5rem;
     margin: 0;
-    color: var(--color-highlight);
+    color: var(--color-primary-a40);
 }
 
 header nav {
@@ -69,22 +89,22 @@ header nav ul li a {
 }
 
 header nav ul li a:hover {
-    background-color: var(--color-border);
-    color: var(--color-background);
+    background-color: var(--color-primary-a20);
+    color: var(--color-surface-a0);
 }
 
 /* Main Content */
 main {
     margin: 2rem 0;
     padding: 1.5rem;
-    background-color: var(--color-surface);
+    background-color: var(--color-surface-a10);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 main h2 {
     font-size: 2rem;
-    color: var(--color-highlight);
+    color: var(--color-primary-a30);
     margin-bottom: 1rem;
 }
 
@@ -93,25 +113,11 @@ main p {
     margin: 1rem 0;
 }
 
-/* Footer Styles */
-footer {
-    background-color: var(--color-surface);
-    color: var(--color-text-muted);
-    text-align: center;
-    padding: 1.5rem 0;
-    border-top: 2px solid var(--color-border);
-    margin-top: 2rem;
-}
-
-footer p {
-    margin: 0;
-}
-
 /* Buttons */
 button,
 .btn {
-    background-color: var(--color-border);
-    color: var(--color-background);
+    background-color: var(--color-primary-a20);
+    color: var(--color-surface-a0);
     border: none;
     padding: 0.7rem 1.5rem;
     border-radius: 4px;
@@ -122,47 +128,33 @@ button,
 
 button:hover,
 .btn:hover {
-    background-color: var(--color-highlight);
+    background-color: var(--color-primary-a30);
     transform: scale(1.05);
 }
 
 /* Links */
 a {
-    color: var(--color-highlight);
+    color: var(--color-primary-a40);
     text-decoration: none;
     transition: color 0.3s;
 }
 
 a:hover {
+    color: var(--color-primary-a50);
+}
+
+/* Footer Styles */
+footer {
+    background-color: var(--color-surface-a10);
     color: var(--color-text-muted);
+    text-align: center;
+    padding: 1.5rem 0;
+    border-top: 2px solid var(--color-surface-mixed-a20);
+    margin-top: 2rem;
 }
 
-/* Table Styles */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 2rem 0;
-    background-color: var(--color-surface);
-    color: var(--color-text);
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-table th,
-table td {
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 1px solid var(--color-border);
-}
-
-table th {
-    background-color: var(--color-border);
-    color: var(--color-background);
-    font-weight: bold;
-}
-
-table tr:nth-child(even) {
-    background-color: var(--color-accent);
+footer p {
+    margin: 0;
 }
 
 /* Form Styles */
@@ -174,20 +166,48 @@ table tr:nth-child(even) {
     width: 100%;
     padding: 0.75rem;
     margin-top: 0.5rem;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-surface-mixed-a20);
     border-radius: 4px;
-    background-color: var(--color-background);
+    background-color: var(--color-surface-a0);
     color: var(--color-text);
 }
 
 .form-control:focus {
     outline: none;
-    border-color: var(--color-highlight);
+    border-color: var(--color-primary-a30);
 }
 
 .error {
     color: #ff6b6b;
     font-size: 0.9rem;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    background-color: var(--color-surface-a10);
+    color: var(--color-text);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+table th,
+table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--color-surface-mixed-a20);
+}
+
+table th {
+    background-color: var(--color-surface-mixed-a20);
+    color: var(--color-text);
+    font-weight: bold;
+}
+
+table tr:nth-child(even) {
+    background-color: var(--color-surface-mixed-a10);
 }
 
 /* Lists */

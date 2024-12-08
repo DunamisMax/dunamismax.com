@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= title %></title>
+    <title><%= title %> | Dunamis Max</title>
     <link rel="stylesheet" href="/css/styles.css?v=<%= Date.now() %>" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,17 +14,40 @@
     />
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
     <script src="/js/scripts.js" defer></script>
-    <script src="https://unpkg.com/htmx.org"></script>
+    <script src="https://unpkg.com/htmx.org" defer></script>
   </head>
   <body>
     <header>
       <div class="wrapper">
-        <h1>dunamismax.com</h1>
-        <nav>
+        <h1><a href="/" aria-label="Dunamis Max Home">Dunamis Max</a></h1>
+        <nav aria-label="Main Navigation">
           <ul class="nav">
-            <li><a href="/">Home</a></li>
-            <li><a href="/blog">Blog</a></li>
-            <li><a href="/contact">Contact</a></li>
+            <li>
+              <a href="/" class="<%= activePage === 'home' ? 'active' : '' %>"
+                >Home</a
+              >
+            </li>
+            <li>
+              <a
+                href="/blog"
+                class="<%= activePage === 'blog' ? 'active' : '' %>"
+                >Blog</a
+              >
+            </li>
+            <li>
+              <a
+                href="/contact"
+                class="<%= activePage === 'contact' ? 'active' : '' %>"
+                >Contact</a
+              >
+            </li>
+            <li>
+              <a
+                href="/obsidian/"
+                class="<%= activePage === 'webdav' ? 'active' : '' %>"
+                >WebDAV</a
+              >
+            </li>
           </ul>
         </nav>
       </div>
@@ -33,13 +56,13 @@
       <div class="wrapper">
         <!-- Flash Messages -->
         <% if (success_messages && success_messages.length > 0) { %>
-        <div class="flash success">
+        <div class="flash success" role="alert" aria-live="assertive">
           <% success_messages.forEach(function(message){ %>
           <p><%= message %></p>
           <% }) %>
         </div>
         <% } %> <% if (error_messages && error_messages.length > 0) { %>
-        <div class="flash error">
+        <div class="flash error" role="alert" aria-live="assertive">
           <% error_messages.forEach(function(message){ %>
           <p><%= message %></p>
           <% }) %>

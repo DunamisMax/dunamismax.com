@@ -1,7 +1,10 @@
 <!-- views/index.ejs -->
-<%- include('partials/header') %>
+<%- include('partials/header', { activePage: 'home' }) %>
 
-<h2>Welcome to dunamismax.com</h2>
-<p>This is the home page for the website.</p>
+<section class="intro">
+  <h2>Welcome to Dunamis Max</h2>
+  <p>This is the home page for the website.</p>
+  <!-- Add more introductory content as needed -->
+</section>
 
 <%- include('partials/footer') %>

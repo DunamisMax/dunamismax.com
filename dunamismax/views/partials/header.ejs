@@ -1,0 +1,51 @@
+<!-- views/partials/header.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/styles.css?v=<%= Date.now() %>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+    <script src="/js/scripts.js" defer></script>
+    <script src="https://unpkg.com/htmx.org"></script>
+  </head>
+  <body>
+    <header>
+      <div class="wrapper">
+        <h1>dunamismax.com</h1>
+        <nav>
+          <ul class="nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/blog">Blog</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <div class="wrapper">
+        <!-- Flash Messages -->
+        <% if (success_messages && success_messages.length > 0) { %>
+        <div class="flash success">
+          <% success_messages.forEach(function(message){ %>
+          <p><%= message %></p>
+          <% }) %>
+        </div>
+        <% } %> <% if (error_messages && error_messages.length > 0) { %>
+        <div class="flash error">
+          <% error_messages.forEach(function(message){ %>
+          <p><%= message %></p>
+          <% }) %>
+        </div>
+        <% } %>
+      </div>
+    </main>
+  </body>
+</html>

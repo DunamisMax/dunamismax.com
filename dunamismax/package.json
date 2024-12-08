@@ -1,0 +1,19 @@
+{
+  "name": "my-node-app",
+  "version": "1.0.0",
+  "description": "A beautifully coded website rewritten from Flask to ExpressJS with NodeJS",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "Your Name",
+  "license": "ISC",
+  "dependencies": {
+    "express-flash": "*",
+    "ejs": "*",
+    "express": "*",
+    "express-session": "*"
+  }
+}

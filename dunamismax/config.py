@@ -5,7 +5,7 @@ load_dotenv()
 
 
 class Config:
-    SECRET_KEY = os.getenv("SECRET_KEY", "default-key-if-missing")
+    SECRET_KEY = os.getenv("SECRET_KEY")
     DEBUG = os.getenv("FLASK_ENV") == "development"
 
 

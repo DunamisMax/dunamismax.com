@@ -1,0 +1,41 @@
+<!-- contact.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<main class="wrapper">
+    <h2>Contact Us</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.name.label }}<br>
+            {{ form.name(class_='form-control') }}
+            {% for error in form.name.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            {{ form.email.label }}<br>
+            {{ form.email(class_='form-control') }}
+            {% for error in form.email.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            {{ form.subject.label }}<br>
+            {{ form.subject(class_='form-control') }}
+            {% for error in form.subject.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            {{ form.message.label }}<br>
+            {{ form.message(class_='form-control') }}
+            {% for error in form.message.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+        </div>
+        {{ form.submit(class_='btn') }}
+    </form>
+</main>
+{% endblock %}

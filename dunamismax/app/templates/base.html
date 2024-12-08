@@ -18,8 +18,9 @@
             <h1>dunamismax.com</h1>
             <nav>
                 <ul class="nav">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/blog">Blog</a></li>
+                    <li><a href="{{ url_for('main.home') }}">Home</a></li>
+                    <li><a href="{{ url_for('main.blog') }}">Blog</a></li>
+                    <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
                 </ul>
             </nav>
         </div>

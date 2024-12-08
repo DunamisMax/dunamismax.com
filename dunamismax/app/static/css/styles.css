@@ -1,17 +1,19 @@
-/* Define the Synthetic Color Palette */
+/* Define the Dark Color Theme */
 :root {
-    --synthetic-100: #131C28; /* Darkest Blue - Background */
-    --synthetic-200: #303438;
-    --synthetic-300: #454A4E;
-    --synthetic-400: #a0a3a6;
-    --synthetic-500: #d2cdcb; /* Lightest Text Color */
+    --color-background: #201e26;  /* Darkest color */
+    --color-surface: #35333a;     /* Slightly lighter */
+    --color-border: #4b4950;      /* Medium */
+    --color-accent: #626067;      /* Light */
+    --color-highlight: #7a797e;   /* Lighter */
+    --color-text-muted: #939297;  /* Lightest */
+    --color-text: #ffffff;        /* White text */
 }
 
 /* Base Styles */
 html, body {
     font-family: 'Open Sans', sans-serif;
-    background-color: var(--synthetic-100); /* Dark background */
-    color: var(--synthetic-500); /* Light text for readability */
+    background-color: var(--color-background);
+    color: var(--color-text);
     margin: 0;
     padding: 0;
     height: 100%;
@@ -20,7 +22,7 @@ html, body {
 }
 
 * {
-    box-sizing: border-box; /* Ensure padding and borders are included in dimensions */
+    box-sizing: border-box;
 }
 
 /* Wrapper for Centered Content */
@@ -32,16 +34,16 @@ html, body {
 
 /* Header Styles */
 header {
-    background-color: var(--synthetic-200); /* Slightly lighter for contrast */
+    background-color: var(--color-surface);
     padding: 1.5rem 0;
-    border-bottom: 2px solid var(--synthetic-300);
+    border-bottom: 2px solid var(--color-border);
     text-align: center;
 }
 
 header h1 {
     font-size: 2.5rem;
     margin: 0;
-    color: var(--synthetic-400); /* Accent title color */
+    color: var(--color-highlight);
 }
 
 header nav {
@@ -59,7 +61,7 @@ header nav ul {
 
 header nav ul li a {
     text-decoration: none;
-    color: var(--synthetic-500); /* Light text */
+    color: var(--color-text);
     font-weight: bold;
     padding: 0.5rem 1rem;
     border-radius: 4px;
@@ -67,22 +69,22 @@ header nav ul li a {
 }
 
 header nav ul li a:hover {
-    background-color: var(--synthetic-300);
-    color: var(--synthetic-100); /* Darker contrast on hover */
+    background-color: var(--color-border);
+    color: var(--color-background);
 }
 
 /* Main Content */
 main {
     margin: 2rem 0;
     padding: 1.5rem;
-    background-color: var(--synthetic-200); /* Slightly lighter for content area */
+    background-color: var(--color-surface);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 main h2 {
     font-size: 2rem;
-    color: var(--synthetic-400);
+    color: var(--color-highlight);
     margin-bottom: 1rem;
 }
 
@@ -93,11 +95,11 @@ main p {
 
 /* Footer Styles */
 footer {
-    background-color: var(--synthetic-200);
-    color: var(--synthetic-400);
+    background-color: var(--color-surface);
+    color: var(--color-text-muted);
     text-align: center;
     padding: 1.5rem 0;
-    border-top: 2px solid var(--synthetic-300);
+    border-top: 2px solid var(--color-border);
     margin-top: 2rem;
 }
 
@@ -106,9 +108,10 @@ footer p {
 }
 
 /* Buttons */
-button {
-    background-color: var(--synthetic-300);
-    color: var(--synthetic-100); /* Dark text for button contrast */
+button,
+.btn {
+    background-color: var(--color-border);
+    color: var(--color-background);
     border: none;
     padding: 0.7rem 1.5rem;
     border-radius: 4px;
@@ -117,20 +120,21 @@ button {
     transition: background-color 0.3s, transform 0.2s;
 }
 
-button:hover {
-    background-color: var(--synthetic-400); /* Lighter hover effect */
+button:hover,
+.btn:hover {
+    background-color: var(--color-highlight);
     transform: scale(1.05);
 }
 
 /* Links */
 a {
-    color: var(--synthetic-400);
+    color: var(--color-highlight);
     text-decoration: none;
     transition: color 0.3s;
 }
 
 a:hover {
-    color: var(--synthetic-500); /* Brighter hover color */
+    color: var(--color-text-muted);
 }
 
 /* Table Styles */
@@ -138,56 +142,52 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin: 2rem 0;
-    background-color: var(--synthetic-200);
-    color: var(--synthetic-500);
+    background-color: var(--color-surface);
+    color: var(--color-text);
     border-radius: 8px;
     overflow: hidden;
 }
 
-table th, table td {
+table th,
+table td {
     padding: 1rem;
     text-align: left;
-    border-bottom: 1px solid var(--synthetic-300);
+    border-bottom: 1px solid var(--color-border);
 }
 
 table th {
-    background-color: var(--synthetic-300);
-    color: var(--synthetic-100);
+    background-color: var(--color-border);
+    color: var(--color-background);
     font-weight: bold;
 }
 
 table tr:nth-child(even) {
-    background-color: var(--synthetic-400);
+    background-color: var(--color-accent);
 }
 
 /* Form Styles */
-form {
-    background-color: var(--synthetic-200);
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.form-group {
+    margin-bottom: 1.5rem;
 }
 
-form label {
-    color: var(--synthetic-400);
-    font-weight: bold;
-    display: block;
-    margin-bottom: 0.5rem;
-}
-
-form input, form textarea {
+.form-control {
     width: 100%;
     padding: 0.75rem;
-    margin-bottom: 1rem;
-    border: 1px solid var(--synthetic-300);
+    margin-top: 0.5rem;
+    border: 1px solid var(--color-border);
     border-radius: 4px;
-    background-color: var(--synthetic-100);
-    color: var(--synthetic-500);
+    background-color: var(--color-background);
+    color: var(--color-text);
 }
 
-form input:focus, form textarea:focus {
+.form-control:focus {
     outline: none;
-    border-color: var(--synthetic-400);
+    border-color: var(--color-highlight);
+}
+
+.error {
+    color: #ff6b6b;
+    font-size: 0.9rem;
 }
 
 /* Lists */

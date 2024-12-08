@@ -1,19 +1,22 @@
+// utils/email.js
+// Email sending utility using Nodemailer
+
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST, // e.g., smtp.gmail.com
-  port: process.env.EMAIL_PORT, // e.g., 587
-  secure: process.env.EMAIL_SECURE === "true", // true for 465, false for other ports
+  host: process.env.EMAIL_HOST,
+  port: process.env.EMAIL_PORT,
+  secure: process.env.EMAIL_SECURE === "true",
   auth: {
-    user: process.env.EMAIL_USER, // Your email username
-    pass: process.env.EMAIL_PASS, // Your email password or app-specific password
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 });
 
 /**
- * Sends an email with the given options.
- * @param {Object} mailOptions - Options for the email.
- * @returns {Promise} - Resolves when the email is sent.
+ * Sends an email with the given mailOptions.
+ * @param {Object} mailOptions - nodemailer mail options object
+ * @returns {Promise} - Resolves with info about the sent message
  */
 async function sendEmail(mailOptions) {
   try {

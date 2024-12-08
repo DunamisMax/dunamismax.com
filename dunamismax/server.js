@@ -1,8 +1,7 @@
 // server.js
+// Entry point for the application
 
-// Load environment variables from .env
 require("dotenv").config();
-
 const express = require("express");
 const path = require("path");
 const mainRouter = require("./routes/main");
@@ -13,51 +12,49 @@ const morgan = require("morgan");
 const compression = require("compression");
 const csrf = require("csurf");
 const rateLimit = require("express-rate-limit");
-const logger = require("./utils/logger"); // Import the logger
+const logger = require("./utils/logger");
 
 const app = express();
 
 // Environment Variables
 const PORT = process.env.PORT || 42069;
-const SECRET_KEY = process.env.SECRET_KEY || "default-secret-key"; // Replace with a strong secret in production
+const SECRET_KEY = process.env.SECRET_KEY || "default-secret-key";
 const NODE_ENV = process.env.NODE_ENV || "development";
 
-// Trust proxy if behind a proxy (e.g., Apache2)
+// Trust proxy if behind a reverse proxy (like Apache/Nginx)
 if (NODE_ENV === "production") {
-  app.set("trust proxy", 1); // Trust first proxy
+  app.set("trust proxy", 1);
 }
 
 // Set EJS as the templating engine
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// Middleware Setup
-
-// Security HTTP headers with Content Security Policy
-app.use(helmet());
-
-// Content Security Policy (CSP) configuration
+// Security and CSP
 app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "https://unpkg.com/htmx.org"],
-      styleSrc: ["'self'", "https://fonts.googleapis.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      imgSrc: ["'self'", "data:"],
-      connectSrc: ["'self'"],
-      frameSrc: ["'self'"],
-      objectSrc: ["'none'"],
-      upgradeInsecureRequests: [],
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "https://unpkg.com/htmx.org"],
+        styleSrc: ["'self'", "https://fonts.googleapis.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+        imgSrc: ["'self'", "data:"],
+        connectSrc: ["'self'"],
+        frameSrc: ["'self'"],
+        objectSrc: ["'none'"],
+        upgradeInsecureRequests: [],
+      },
     },
+    crossOriginEmbedderPolicy: false,
   })
 );
 
-// HTTP request logger with winston
+// HTTP request logging via morgan -> winston
 app.use(
   morgan(NODE_ENV === "production" ? "combined" : "dev", {
     stream: {
-      write: (message) => logger.info(message.trim()), // Log using winston
+      write: (message) => logger.info(message.trim()),
     },
   })
 );
@@ -65,11 +62,11 @@ app.use(
 // Gzip compression
 app.use(compression());
 
-// Body parsing middleware (replacing body-parser)
+// Body parsing
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// Serve static files from the 'public' directory with enhanced security
+// Static files
 app.use(
   express.static(path.join(__dirname, "public"), {
     dotfiles: "ignore",
@@ -81,85 +78,66 @@ app.use(
   })
 );
 
-// Session middleware for flash messages
+// Session & Flash
 app.use(
   session({
     secret: SECRET_KEY,
     resave: false,
-    saveUninitialized: false, // Prevents saving uninitialized sessions
+    saveUninitialized: false,
     cookie: {
-      secure: NODE_ENV === "production", // Ensures cookies are only sent over HTTPS
-      httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
-      maxAge: 1000 * 60 * 60 * 24, // 1 day
-      sameSite: "lax", // CSRF protection
+      secure: NODE_ENV === "production",
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24,
+      sameSite: "lax",
     },
   })
 );
-
-// Flash middleware
 app.use(flash());
 
-// Rate Limiting Middleware (Global)
+// Global Rate Limiting
 const globalLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per windowMs
-  message: "Too many requests from this IP, please try again after 15 minutes.",
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: "Too many requests, please try again later.",
 });
-
 app.use(globalLimiter);
 
-// CSRF Protection Middleware
-const csrfProtection = csrf();
+// CSRF Protection
+app.use(csrf());
 
-// Initialize CSRF protection after the session middleware
-app.use(csrfProtection);
-
-// Pass CSRF token and other global variables to all views
+// Inject global variables into views
 app.use((req, res, next) => {
   res.locals.csrfToken = req.csrfToken();
   res.locals.success_messages = req.flash("success");
   res.locals.error_messages = req.flash("error");
-  res.locals.user = req.session.user || null; // Example: if you have user sessions
+  res.locals.user = req.session.user || null;
   next();
 });
 
-// Use the main router for all routes
+// Use main router
 app.use("/", mainRouter);
 
-// Error Handling Middleware
-
-// 404 Not Found Handler
-app.use((req, res, next) => {
+// 404 Handler
+app.use((req, res) => {
   res.status(404).render("404", { title: "404 - Page Not Found" });
 });
 
 // Global Error Handler
 app.use((err, req, res, next) => {
   if (err.code === "EBADCSRFTOKEN") {
-    // CSRF token validation failed
     logger.warn(
       "CSRF token validation failed for %s %s",
       req.method,
       req.originalUrl
     );
     req.flash("error", "Invalid CSRF token.");
-    return res.redirect(req.get("Referrer") || "/"); // Updated redirect
+    return res.redirect(req.get("Referrer") || "/");
   }
 
-  // Log the error
   logger.error("Unhandled Error: %o", err);
 
-  // Determine if the error is operational or programming error
-  const isOperational = err.isOperational || false;
-
-  // Respond with a generic message for non-operational errors
-  if (!isOperational) {
-    res.status(500).render("500", { title: "500 - Server Error" });
-  } else {
-    res
-      .status(err.status || 500)
-      .render("500", { title: "500 - Server Error", message: err.message });
-  }
+  // For non-operational errors, hide details from user
+  res.status(500).render("500", { title: "500 - Server Error" });
 });
 
 // Graceful Shutdown
@@ -170,7 +148,6 @@ const shutdown = () => {
     process.exit(0);
   });
 
-  // Force shutdown after 10 seconds
   setTimeout(() => {
     logger.error("Forcing shutdown...");
     process.exit(1);
@@ -180,7 +157,7 @@ const shutdown = () => {
 process.on("SIGTERM", shutdown);
 process.on("SIGINT", shutdown);
 
-// Start the server
+// Start Server
 const server = app.listen(PORT, () => {
   logger.info(`Server is running on port ${PORT}`);
 });

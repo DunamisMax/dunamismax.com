@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
@@ -17,6 +17,7 @@
     <script src="https://unpkg.com/htmx.org" defer></script>
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <header>
       <div class="wrapper">
         <h1><a href="/" aria-label="Dunamis Max Home">Dunamis Max</a></h1>
@@ -52,7 +53,7 @@
         </nav>
       </div>
     </header>
-    <main>
+    <main id="main-content">
       <div class="wrapper">
         <!-- Flash Messages -->
         <% if (success_messages && success_messages.length > 0) { %>

@@ -1,18 +1,20 @@
 // routes/main.js
+// Main application routes
+
 const express = require("express");
 const router = express.Router();
 const { body, validationResult } = require("express-validator");
-const sendEmail = require("../utils/email"); // Email utility
-const logger = require("../utils/logger"); // Logger utility
+const sendEmail = require("../utils/email");
+const logger = require("../utils/logger");
 const rateLimit = require("express-rate-limit");
 
-// Define rate limiting rules for the contact form
+// Contact form rate limiting
 const contactFormLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 10, // limit each IP to 10 requests per windowMs
+  max: 10,
   message:
-    "Too many contact form submissions from this IP, please try again after 15 minutes.",
-  handler: (req, res /*next*/) => {
+    "Too many contact form submissions. Please try again after 15 minutes.",
+  handler: (req, res) => {
     logger.warn(
       "Rate limit exceeded for IP: %s on route: %s",
       req.ip,
@@ -35,8 +37,7 @@ router.get("/", (req, res) => {
 // Blog Route
 router.get("/blog", async (req, res) => {
   try {
-    // TODO: Fetch blog posts from a database or external API
-    const posts = await getBlogPosts(); // Replace with your actual data fetching logic
+    const posts = await getBlogPosts(); // Replace with real data fetching
     res.render("blog", { title: "Blog", activePage: "blog", posts });
     logger.info("Blog page accessed by user: %s", req.ip);
   } catch (error) {
@@ -47,22 +48,22 @@ router.get("/blog", async (req, res) => {
   }
 });
 
-// Contact Routes
+// Contact Route (GET)
 router.get("/contact", (req, res) => {
   res.render("contact", {
     title: "Contact Us",
     activePage: "contact",
     form: {},
     errors: {},
-    csrfToken: req.csrfToken(), // Pass CSRF token to the view
+    csrfToken: req.csrfToken(),
   });
 });
 
+// Contact Route (POST)
 router.post(
   "/contact",
-  contactFormLimiter, // Apply rate limiting specifically to the contact form
+  contactFormLimiter,
   [
-    // Validation and Sanitization using express-validator
     body("name")
       .trim()
       .isLength({ min: 2, max: 100 })
@@ -89,12 +90,13 @@ router.post(
     const { name, email, subject, message } = req.body;
 
     if (!errors.isEmpty()) {
-      // There are validation errors
       const extractedErrors = {};
-      errors.array().map((err) => (extractedErrors[err.param] = err.msg));
+      errors.array().forEach((err) => {
+        extractedErrors[err.param] = err.msg;
+      });
 
       logger.warn(
-        "Validation errors on contact form submission from IP %s: %o",
+        "Validation errors on contact form: IP %s, errors: %o",
         req.ip,
         extractedErrors
       );
@@ -104,15 +106,15 @@ router.post(
         activePage: "contact",
         form: req.body,
         errors: extractedErrors,
-        csrfToken: req.csrfToken(), // Pass CSRF token to the view
+        csrfToken: req.csrfToken(),
       });
     }
 
     try {
-      // Process the form data (e.g., send an email)
+      // Send email
       const mailOptions = {
-        from: `"${name}" <${email}>`, // Sender address
-        to: process.env.CONTACT_EMAIL || "contact@dunamismax.com", // Receiver address
+        from: `"${name}" <${email}>`,
+        to: process.env.CONTACT_EMAIL || "contact@dunamismax.com",
         subject: `Contact Form Submission: ${subject}`,
         text: `
 You have a new contact form submission.
@@ -123,12 +125,9 @@ Subject: ${subject}
 Message:
 ${message}
         `,
-        // You can also send HTML content
-        // html: `<p>You have a new contact form submission.</p><p><strong>Name:</strong> ${name}</p>...`,
       };
 
       await sendEmail(mailOptions);
-
       logger.info("Contact form submitted by %s <%s>", name, email);
 
       req.flash(
@@ -151,20 +150,19 @@ ${message}
   }
 );
 
-// WebDAV Route (Handled by Apache2, restrict access to prevent redirect loops)
+// WebDAV Route (Unauthorized Access Handling)
 router.all("/obsidian/*", (req, res) => {
   logger.warn(
-    "Unauthorized access attempt to WebDAV route by IP: %s, Path: %s",
+    "Unauthorized access attempt to WebDAV by IP: %s, Path: %s",
     req.ip,
     req.originalUrl
   );
   res.status(403).send("Access to WebDAV is restricted.");
 });
 
-// Example function to fetch blog posts (Replace with actual implementation)
+// Example: Fetching blog posts (Mock function)
 async function getBlogPosts() {
-  // TODO: Implement actual data fetching logic
-  // For demonstration, returning mock data
+  // Implement actual DB or API fetching here
   return [
     {
       slug: "first-blog-post",

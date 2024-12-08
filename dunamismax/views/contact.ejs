@@ -1,9 +1,12 @@
 <!-- views/contact.ejs -->
-<%- include('partials/header', { activePage: 'contact' }) %>
+<%- include('partials/header', { title: 'Contact Us', activePage: 'contact' })
+%>
 
 <section class="contact-section">
   <h2>Contact Us</h2>
   <form action="/contact" method="POST" novalidate>
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
     <!-- Name Field -->
     <div class="form-group">
       <label for="name">Name</label>

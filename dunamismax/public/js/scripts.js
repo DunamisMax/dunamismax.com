@@ -1,6 +1,6 @@
 // public/js/scripts.js
 
-// Example: Simple console log to verify script loading
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("Scripts.js is loaded and running.");
+  console.log("scripts.js loaded successfully.");
+  // Here you can add additional client-side interactivity if needed.
 });

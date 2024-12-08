@@ -1,7 +1,7 @@
 {
   "name": "dunamismax.com",
-  "version": "1.0.0",
-  "description": "A beautifully coded website rewritten from Flask to ExpressJS with NodeJS",
+  "version": "1.0.1",
+  "description": "A beautifully coded website from Flask to ExpressJS",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -11,20 +11,20 @@
   "author": "Your Name",
   "license": "ISC",
   "dependencies": {
-    "compression": "^1.7.5",
-    "csurf": "^1.11.0",
+    "compression": "*",
+    "csurf": "*",
     "dotenv": "^16.4.7",
     "ejs": "*",
     "express": "*",
     "express-flash": "*",
-    "express-rate-limit": "^7.4.1",
+    "express-rate-limit": "*",
     "express-session": "*",
-    "express-validator": "^7.2.0",
-    "helmet": "^8.0.0",
-    "mongoose": "^8.8.4",
-    "morgan": "^1.10.0",
-    "nodemailer": "^6.9.16",
-    "winston": "^3.17.0",
-    "winston-daily-rotate-file": "^5.0.0"
+    "express-validator": "*",
+    "helmet": "*",
+    "mongoose": "*",
+    "morgan": "*",
+    "nodemailer": "*",
+    "winston": "*",
+    "winston-daily-rotate-file": "*"
   }
 }

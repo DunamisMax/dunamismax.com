@@ -1,3 +1,4 @@
+// routes/main.js
 const express = require("express");
 const router = express.Router();
 const { body, validationResult } = require("express-validator");
@@ -11,6 +12,18 @@ const contactFormLimiter = rateLimit({
   max: 10, // limit each IP to 10 requests per windowMs
   message:
     "Too many contact form submissions from this IP, please try again after 15 minutes.",
+  handler: (req, res /*next*/) => {
+    logger.warn(
+      "Rate limit exceeded for IP: %s on route: %s",
+      req.ip,
+      req.originalUrl
+    );
+    req.flash(
+      "error",
+      "You have exceeded the maximum number of contact form submissions. Please try again later."
+    );
+    res.status(429).redirect("/contact");
+  },
 });
 
 // Home Route
@@ -25,6 +38,7 @@ router.get("/blog", async (req, res) => {
     // TODO: Fetch blog posts from a database or external API
     const posts = await getBlogPosts(); // Replace with your actual data fetching logic
     res.render("blog", { title: "Blog", activePage: "blog", posts });
+    logger.info("Blog page accessed by user: %s", req.ip);
   } catch (error) {
     logger.error("Error fetching blog posts: %s", error.message);
     res
@@ -46,7 +60,7 @@ router.get("/contact", (req, res) => {
 
 router.post(
   "/contact",
-  contactFormLimiter, // Apply rate limiting
+  contactFormLimiter, // Apply rate limiting specifically to the contact form
   [
     // Validation and Sanitization using express-validator
     body("name")
@@ -80,7 +94,8 @@ router.post(
       errors.array().map((err) => (extractedErrors[err.param] = err.msg));
 
       logger.warn(
-        "Validation errors on contact form submission: %o",
+        "Validation errors on contact form submission from IP %s: %o",
+        req.ip,
         extractedErrors
       );
 
@@ -107,7 +122,7 @@ Email: ${email}
 Subject: ${subject}
 Message:
 ${message}
-                `,
+        `,
         // You can also send HTML content
         // html: `<p>You have a new contact form submission.</p><p><strong>Name:</strong> ${name}</p>...`,
       };
@@ -122,7 +137,11 @@ ${message}
       );
       res.redirect("/contact");
     } catch (error) {
-      logger.error("Error processing contact form: %s", error.message);
+      logger.error(
+        "Error processing contact form from IP %s: %s",
+        req.ip,
+        error.message
+      );
       req.flash(
         "error",
         "There was an error sending your message. Please try again later."
@@ -132,9 +151,14 @@ ${message}
   }
 );
 
-// WebDAV Route (Handled by Apache2, redirect if accessed directly)
-router.get("/obsidian/", (req, res) => {
-  res.redirect("/obsidian/");
+// WebDAV Route (Handled by Apache2, restrict access to prevent redirect loops)
+router.all("/obsidian/*", (req, res) => {
+  logger.warn(
+    "Unauthorized access attempt to WebDAV route by IP: %s, Path: %s",
+    req.ip,
+    req.originalUrl
+  );
+  res.status(403).send("Access to WebDAV is restricted.");
 });
 
 // Example function to fetch blog posts (Replace with actual implementation)

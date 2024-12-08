@@ -1,3 +1,5 @@
+// server.js
+
 // Load environment variables from .env
 require("dotenv").config();
 
@@ -89,7 +91,7 @@ app.use(
       secure: NODE_ENV === "production", // Ensures cookies are only sent over HTTPS
       httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
       maxAge: 1000 * 60 * 60 * 24, // 1 day
-      sameSite: "lax", // Protects against CSRF
+      sameSite: "lax", // CSRF protection
     },
   })
 );
@@ -141,7 +143,7 @@ app.use((err, req, res, next) => {
       req.originalUrl
     );
     req.flash("error", "Invalid CSRF token.");
-    return res.redirect("back");
+    return res.redirect(req.get("Referrer") || "/"); // Updated redirect
   }
 
   // Log the error

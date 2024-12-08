@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "/home/sawyer/dunamismax.com/dunamismax/logs/.7e1a825343a98aff351a873a5f3ebc680e07cd33-audit.json",
+    "files": [
+        {
+            "date": 1733689206407,
+            "name": "/home/sawyer/dunamismax.com/dunamismax/logs/error-2024-12-08.log",
+            "hash": "9ed9b8e92aa13cb446438986fdf595c029f870d10a62c179adedc8f5fdf0a677"
+        }
+    ],
+    "hashType": "sha256"
+}

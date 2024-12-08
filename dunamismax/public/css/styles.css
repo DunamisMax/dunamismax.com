@@ -1,6 +1,8 @@
-/* =========================================================
-   Dark Theme Color Palette
-   ========================================================= */
+/* ===================================================================
+   GLOBAL VARIABLES & THEME
+   =================================================================== */
+
+/* Color Palette: Dark Theme */
 :root {
   /* Primary Colors */
   --color-primary-a0: #baa3ff;
@@ -10,7 +12,7 @@
   --color-primary-a40: #dacbff;
   --color-primary-a50: #e2d5ff;
 
-  /* Surface Colors (Dark Theme) */
+  /* Surface Colors */
   --color-surface-a0: #121212;
   --color-surface-a10: #282828;
   --color-surface-a20: #3f3f3f;
@@ -29,24 +31,54 @@
   /* Text Colors */
   --color-text: #ffffff;
   --color-text-muted: var(--color-primary-a50);
+
+  /* Font & Spacing Scales */
+  --font-family-base: "Open Sans", sans-serif;
+  --font-size-base: 16px;
+  --font-size-sm: 0.9rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-xxl: 1.5rem;
+  --font-size-xxxl: 2rem;
+  --line-height-base: 1.6;
+
+  /* Spacing Scale (Using multiples of 0.5rem) */
+  --space-xxs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+
+  /* Transitions & Shadows */
+  --transition-base: 0.3s ease;
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* =========================================================
-     Base Styles
-     ========================================================= */
+/* ===================================================================
+   BASE STYLES & RESET
+   =================================================================== */
 html,
 body {
-  font-family: "Open Sans", sans-serif;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
   background-color: var(--color-surface-a0);
   color: var(--color-text);
   margin: 0;
   padding: 0;
   height: 100%;
-  line-height: 1.6;
+  line-height: var(--line-height-base);
   scroll-behavior: smooth;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -59,97 +91,112 @@ svg {
   max-width: 100%;
 }
 
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
 a {
   text-decoration: none;
   color: var(--color-primary-a40);
-  transition: color 0.3s;
+  transition: color var(--transition-base);
 }
-
-a:hover {
+a:hover,
+a:focus {
   color: var(--color-primary-a50);
+  outline: none;
 }
 
-/* =========================================================
-     Layout Wrappers
-     ========================================================= */
+/* Focus states for accessibility */
+:focus-visible {
+  outline: 2px dashed var(--color-primary-a40);
+  outline-offset: 4px;
+}
+
+/* ===================================================================
+   LAYOUT WRAPPER
+   =================================================================== */
 .wrapper {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 var(--space-sm);
 }
 
-/* =========================================================
-     Skip Link (Accessibility)
-     ========================================================= */
+/* ===================================================================
+   SKIP LINK
+   =================================================================== */
 .skip-link {
   position: absolute;
   top: -40px;
   left: 0;
   background: var(--color-primary-a40);
   color: var(--color-surface-a0);
-  padding: 0.5rem;
+  padding: var(--space-xs);
   z-index: 100;
   text-decoration: none;
-  transition: top 0.3s;
+  transition: top var(--transition-base);
 }
-.skip-link:focus {
+.skip-link:focus,
+.skip-link:hover {
   top: 0;
 }
 
-/* =========================================================
-     Header
-     ========================================================= */
+/* ===================================================================
+   HEADER
+   =================================================================== */
 header {
   background-color: var(--color-surface-a10);
-  padding: 1.5rem 0;
+  padding: var(--space-md) 0;
   border-bottom: 2px solid var(--color-surface-mixed-a20);
 }
 
 header h1 {
-  font-size: 2.5rem;
+  font-size: var(--font-size-xxxl);
   margin: 0;
   color: var(--color-primary-a40);
   display: inline-block;
 }
 
 header nav {
-  margin-top: 1rem;
+  margin-top: var(--space-sm);
 }
 
 header nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
   display: flex;
   justify-content: center;
-  gap: 1.5rem;
+  gap: var(--space-sm);
 }
 
-header nav ul li a {
+header nav li a {
   color: var(--color-text);
   font-weight: bold;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  transition: background-color 0.3s, color 0.3s;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-base),
+    color var(--transition-base);
 }
 
-header nav ul li a:hover,
-header nav ul li a.active {
+header nav li a:hover,
+header nav li a.active,
+header nav li a:focus {
   background-color: var(--color-primary-a20);
   color: var(--color-surface-a0);
 }
 
-/* =========================================================
-     Main Content and Sections
-     ========================================================= */
+/* ===================================================================
+   MAIN CONTENT & SECTIONS
+   =================================================================== */
 main {
-  padding: 2rem 0;
+  padding: var(--space-lg) 0;
 }
 
+/* FLASH MESSAGES */
 .flash {
-  margin-bottom: 2rem;
-  padding: 1rem;
-  border-radius: 4px;
+  margin-bottom: var(--space-md);
+  padding: var(--space-sm);
+  border-radius: var(--radius-sm);
   font-weight: bold;
 }
 .flash.success {
@@ -161,69 +208,68 @@ main {
   color: #ffffff;
 }
 
+/* SECTIONS */
 section {
-  margin-bottom: 2rem;
+  margin-bottom: var(--space-lg);
 }
 
-.intro h2,
-.contact-section h2,
-.blog-overview h2,
-.error-page h2 {
-  font-size: 2rem;
+section h2 {
+  font-size: var(--font-size-xxl);
   color: var(--color-primary-a30);
-  margin-bottom: 1rem;
+  margin-bottom: var(--space-sm);
 }
 
-.intro p,
-.contact-section p,
-.blog-overview p,
-.error-page p {
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
+section p {
+  font-size: var(--font-size-md);
+  margin-bottom: var(--space-sm);
 }
 
-/* =========================================================
-     Buttons
-     ========================================================= */
+/* ===================================================================
+   BUTTONS
+   =================================================================== */
 button,
 .btn {
   background-color: var(--color-primary-a20);
   color: var(--color-surface-a0);
   border: none;
-  padding: 0.7rem 1.5rem;
-  border-radius: 4px;
-  font-size: 1rem;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-md);
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+  transition: background-color var(--transition-base), transform 0.2s;
 }
-
 button:hover,
-.btn:hover {
+.btn:hover,
+button:focus,
+.btn:focus {
   background-color: var(--color-primary-a30);
   transform: scale(1.05);
+  outline: none;
 }
 
-/* =========================================================
-     Forms
-     ========================================================= */
+/* ===================================================================
+   FORMS
+   =================================================================== */
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-md);
 }
 
 .form-group label {
   display: block;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
 }
 
 .form-control {
   width: 100%;
-  padding: 0.75rem;
-  margin-top: 0.5rem;
+  padding: var(--space-xs);
+  margin-top: var(--space-xs);
   border: 1px solid var(--color-surface-mixed-a20);
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   background-color: var(--color-surface-a0);
   color: var(--color-text);
+  font-size: var(--font-size-md);
+  transition: border-color var(--transition-base);
 }
 
 .form-control:focus {
@@ -237,25 +283,25 @@ button:hover,
 
 .error {
   color: #ff6b6b;
-  font-size: 0.9rem;
+  font-size: var(--font-size-sm);
 }
 
-/* =========================================================
-     Tables
-     ========================================================= */
+/* ===================================================================
+   TABLES
+   =================================================================== */
 table {
   width: 100%;
   border-collapse: collapse;
-  margin: 2rem 0;
+  margin: var(--space-lg) 0;
   background-color: var(--color-surface-a10);
   color: var(--color-text);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   overflow: hidden;
 }
 
 table th,
 table td {
-  padding: 1rem;
+  padding: var(--space-sm);
   text-align: left;
   border-bottom: 1px solid var(--color-surface-mixed-a20);
 }
@@ -269,26 +315,21 @@ table tr:nth-child(even) {
   background-color: var(--color-surface-mixed-a10);
 }
 
-/* =========================================================
-     Lists
-     ========================================================= */
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+/* ===================================================================
+   LISTS
+   =================================================================== */
 ul li {
-  margin: 0.5rem 0;
+  margin: var(--space-xs) 0;
 }
 
-/* =========================================================
-     Footer
-     ========================================================= */
+/* ===================================================================
+   FOOTER
+   =================================================================== */
 footer {
   background-color: var(--color-surface-a10);
   color: var(--color-text-muted);
   text-align: center;
-  padding: 1.5rem 0;
+  padding: var(--space-md) 0;
   border-top: 2px solid var(--color-surface-mixed-a20);
 }
 
@@ -296,20 +337,20 @@ footer p {
   margin: 0;
 }
 
-/* =========================================================
-     Responsive
-     ========================================================= */
+/* ===================================================================
+   RESPONSIVE DESIGN
+   =================================================================== */
 @media (max-width: 768px) {
   header nav ul {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: var(--space-xs);
   }
 
   header h1 {
-    font-size: 2rem;
+    font-size: var(--font-size-xxl);
   }
 
   .form-control {
-    font-size: 1rem;
+    font-size: var(--font-size-md);
   }
 }

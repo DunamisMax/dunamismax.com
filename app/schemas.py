@@ -1,13 +1,17 @@
+from typing import Annotated
 from pydantic import BaseModel, constr
 from datetime import datetime
 
+
 class UserCreate(BaseModel):
-    username: constr(min_length=3, max_length=50)
-    password: constr(min_length=5)
+    username: Annotated[str, constr(min_length=3, max_length=50)]
+    password: Annotated[str, constr(min_length=5)]
+
 
 class UserLogin(BaseModel):
     username: str
     password: str
+
 
 class UserRead(BaseModel):
     id: int

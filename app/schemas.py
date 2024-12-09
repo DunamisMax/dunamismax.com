@@ -1,17 +1,17 @@
-# schemas.py
-from pydantic import BaseModel
+from pydantic import BaseModel, constr
 from datetime import datetime
 
-class PostBase(BaseModel):
-    title: str
-    slug: str
-    content: str
+class UserCreate(BaseModel):
+    username: constr(min_length=3, max_length=50)
+    password: constr(min_length=5)
 
-class PostCreate(PostBase):
-    pass
+class UserLogin(BaseModel):
+    username: str
+    password: str
 
-class PostRead(PostBase):
+class UserRead(BaseModel):
     id: int
+    username: str
     created_at: datetime
 
     class Config:

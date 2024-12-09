@@ -1,30 +1,30 @@
 import os
 import sys
+
 # Calculate the path to the project's root directory from env.py's location
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, project_root)
+
 from logging.config import fileConfig
-from sqlalchemy import create_engine
-from sqlalchemy import pool
+from sqlalchemy import create_engine, pool
 from alembic import context
 
 from app.config import DATABASE_URL
+from app.database import Base
+from app import models  # Ensure this import loads all models
 
 config = context.config
 
-# Set up logging from alembic.ini (only for logging config, not DB URL)
+# Set up logging from alembic.ini (only for logging configuration)
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# If you have models metadata, import and set here:
-# from app.models import Base
-# target_metadata = Base.metadata
-target_metadata = None
+# Use Base.metadata as target_metadata
+target_metadata = Base.metadata
 
 
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode."""
-    # Use the DATABASE_URL from .env directly
     url = DATABASE_URL
     context.configure(
         url=url,
@@ -39,12 +39,7 @@ def run_migrations_offline() -> None:
 
 def run_migrations_online() -> None:
     """Run migrations in 'online' mode."""
-    # Use the DATABASE_URL from .env directly
-    connectable = create_engine(
-        DATABASE_URL,
-        poolclass=pool.NullPool,
-        future=True
-    )
+    connectable = create_engine(DATABASE_URL, poolclass=pool.NullPool, future=True)
 
     with connectable.connect() as connection:
         context.configure(connection=connection, target_metadata=target_metadata)

@@ -1,32 +1,51 @@
 document.addEventListener("DOMContentLoaded", () => {
   const messageInput = document.getElementById("message-input");
-
-  // Focus the message input on load.
   if (messageInput) {
     messageInput.focus();
   }
 
-  // Listen for htmx events to handle errors gracefully
-  document.body.addEventListener("htmx:responseError", (event) => {
-    // This event is triggered if the server returns an error (like 400)
-    if (event.detail.xhr.status === 400) {
-      // Show an error message to the user
-      displayError("Your message cannot be empty.");
-    } else {
-      displayError("An unexpected error occurred. Please try again.");
-    }
-  });
+  // Convert all comment times to local time
+  convertTimesToLocal();
 
+  // Existing HTMX event listeners remain the same...
   document.body.addEventListener("htmx:afterSwap", (event) => {
-    // After a successful swap (like after posting a comment), refocus the input and clear it
     if (event.target.id === "comment-list") {
       if (messageInput) {
         messageInput.value = "";
         messageInput.focus();
       }
       clearError();
+      convertTimesToLocal(); // Reconvert times after new comments load
     }
   });
+
+  document.body.addEventListener("htmx:responseError", (event) => {
+    if (event.detail.xhr.status === 400) {
+      displayError("Your message cannot be empty.");
+    } else {
+      displayError("An unexpected error occurred. Please try again.");
+    }
+  });
+
+  function convertTimesToLocal() {
+    const timeElements = document.querySelectorAll(".comment-time");
+    timeElements.forEach((elem) => {
+      const utcTime = elem.getAttribute("datetime");
+      if (utcTime) {
+        const dateObj = new Date(utcTime);
+        // Convert to local time string
+        const localTimeString = dateObj.toLocaleString([], {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        });
+        elem.textContent = localTimeString;
+      }
+    });
+  }
 
   function displayError(msg) {
     let errorBox = document.getElementById("error-box");
@@ -42,8 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
     errorBox.textContent = msg;
-
-    // Add visual indication to input
     if (messageInput) {
       messageInput.classList.add("error");
     }

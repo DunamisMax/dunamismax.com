@@ -42,7 +42,7 @@ async def post_comment(request: Request, message: str = Form(...)):
     if not message:
         raise HTTPException(status_code=400, detail="Message cannot be empty")
 
-    new_comment = {"message": message, "timestamp": datetime.now()}
+    new_comment = {"message": message, "timestamp": datetime.utcnow()}
     COMMENTS.insert(0, new_comment)
 
     page = 1

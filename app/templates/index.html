@@ -1,10 +1,12 @@
 {% extends "base.html" %} {% block content %}
 <div class="container">
   <div class="post-form">
-    <form hx-post="/post-comment" hx-target="#comment-list" hx-swap="innerHTML">
+    <form
+      hx-post="/{{ room }}/post-comment"
+      hx-target="#comment-list"
+      hx-swap="innerHTML"
+    >
       <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
-
-      <!-- Floating label and styled input -->
       <label for="message-input" class="label">Your message</label>
       <input
         type="text"
@@ -13,7 +15,6 @@
         class="input"
         required
       />
-
       <button type="submit">Post</button>
     </form>
   </div>

@@ -57,31 +57,59 @@ def show_register_form(request: Request):
 # ---------- Authentication Routes ----------
 
 
-@app.post("/auth/register", response_model=UserRead)
-def register(user_data: UserCreate, db: Session = Depends(get_db)):
+@app.post("/auth/register", response_class=HTMLResponse)
+def register(
+    request: Request,
+    username: str = Form(...),
+    password: str = Form(...),
+    db: Session = Depends(get_db),
+):
+    user_data = UserCreate(username=username, password=password)
+
     existing_user = db.query(User).filter(User.username == user_data.username).first()
     if existing_user:
-        raise HTTPException(status_code=400, detail="Username already taken")
+        return templates.TemplateResponse(
+            "partials/error_message.html",
+            {"request": request, "message": "Username already taken"},
+            status_code=400,
+        )
 
     hashed = hash_password(user_data.password)
     new_user = User(username=user_data.username, password_hash=hashed)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    return new_user
+    return templates.TemplateResponse(
+        "partials/success_message.html",
+        {"request": request, "message": "Account created successfully! Redirecting..."},
+    )
 
 
-@app.post("/auth/login")
-def login(user_data: UserLogin, response: Response, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.username == user_data.username).first()
-    if not user or not verify_password(user_data.password, user.password_hash):
-        raise HTTPException(status_code=400, detail="Invalid credentials")
+@app.post("/auth/login", response_class=HTMLResponse)
+def login(
+    request: Request,
+    response: Response,
+    db: Session = Depends(get_db),
+    username: str = Form(...),
+    password: str = Form(...),
+):
+    user = db.query(User).filter(User.username == username).first()
+    if not user or not verify_password(password, user.password_hash):
+        # Instead of HTTPException, return error partial with 200 OK
+        return templates.TemplateResponse(
+            "partials/error_message.html",
+            {"request": request, "message": "Invalid credentials"},
+            status_code=200,  # Keep it 200, so HTMX can process it gracefully
+        )
 
-    # Set a simple session cookie
     response.set_cookie(
         key="session_user_id", value=str(user.id), httponly=True, max_age=3600
     )
-    return {"message": "Login successful"}
+    return templates.TemplateResponse(
+        "partials/success_message.html",
+        {"request": request, "message": "Login successful! Redirecting..."},
+        status_code=200,
+    )
 
 
 @app.post("/auth/logout")

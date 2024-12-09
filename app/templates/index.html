@@ -1,12 +1,61 @@
 {% extends "base.html" %} {% block content %}
-<h1 class="title">Welcome to My Tech Blog</h1>
-<div
-  id="post-list"
-  hx-get="/blog"
-  hx-trigger="load"
-  hx-target="#post-list"
-  hx-swap="innerHTML"
->
-  <!-- Posts will be loaded here via HTMX -->
+<!-- Hero Section -->
+<section class="hero is-primary">
+  <div class="hero-body">
+    <p class="title">Welcome to My Tech Blog</p>
+    <p class="subtitle">
+      Sharing knowledge, insights, and tutorials on web development and beyond.
+    </p>
+  </div>
+</section>
+
+<!-- Search and Content Section -->
+<div class="section">
+  <div class="columns">
+    <div class="column is-8">
+      <h2 class="title is-4">Recent Posts</h2>
+      <!-- Posts load dynamically -->
+      <div
+        id="post-list"
+        hx-get="/blog"
+        hx-trigger="load"
+        hx-target="#post-list"
+        hx-swap="innerHTML"
+      >
+        <!-- Posts will be loaded here via HTMX -->
+      </div>
+    </div>
+    <div class="column is-4">
+      <!-- A placeholder search form for future expansion -->
+      <div class="box">
+        <h2 class="title is-5">Search Posts</h2>
+        <form>
+          <div class="field">
+            <div class="control has-icons-left">
+              <input
+                class="input"
+                type="text"
+                placeholder="Search..."
+                name="q"
+              />
+              <span class="icon is-small is-left">
+                <i class="fas fa-search"></i>
+              </span>
+            </div>
+          </div>
+          <button class="button is-link" type="submit">Search</button>
+        </form>
+      </div>
+
+      <!-- Future sections: categories, tags, etc. -->
+      <div class="box">
+        <h2 class="title is-5">About This Blog</h2>
+        <p>
+          This is a personal blog where I share technical tutorials, tips, and
+          experiences. Stay tuned for more updates!
+        </p>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

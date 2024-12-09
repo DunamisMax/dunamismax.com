@@ -1,2 +1,4 @@
 /* custom.css */
-/* Add any custom CSS tweaks here. */
+body {
+  font-family: "Open Sans", sans-serif;
+}

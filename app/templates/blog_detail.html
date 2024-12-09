@@ -1,0 +1,17 @@
+<article class="box">
+  <h2 class="title is-3">{{ post.title }}</h2>
+  <p class="subtitle is-6">
+    Posted on {{ post.created_at.strftime("%Y-%m-%d %H:%M") }}
+  </p>
+  <div class="content">{{ post.content }}</div>
+  <p>
+    <a
+      class="button is-link"
+      href="/"
+      hx-get="/blog"
+      hx-target="#post-list"
+      hx-swap="innerHTML"
+      >Back to list</a
+    >
+  </p>
+</article>

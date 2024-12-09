@@ -1,0 +1,12 @@
+{% extends "base.html" %} {% block content %}
+<h1 class="title">Welcome to My Tech Blog</h1>
+<div
+  id="post-list"
+  hx-get="/blog"
+  hx-trigger="load"
+  hx-target="#post-list"
+  hx-swap="innerHTML"
+>
+  <!-- Posts will be loaded here via HTMX -->
+</div>
+{% endblock %}

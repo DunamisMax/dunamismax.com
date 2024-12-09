@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+jinja2
+SQLAlchemy
+mysql-connector-python
+alembic
+python-dotenv
+htmx

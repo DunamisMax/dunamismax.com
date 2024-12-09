@@ -1,14 +1,17 @@
 # main.py
-from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, Request, Depends, HTTPException, Response, Form
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
+from sqlalchemy.orm import Session
 from starlette.templating import Jinja2Templates
-from app.routers import blog
-from app.routers import auth
-from app.database import engine, Base
 
-# Ensure database tables are created if they don't exist yet.
-# For production, rely on Alembic migrations. This is just a safeguard.
+from app.database import engine, Base, get_db
+from app.models import User, Post
+from app.schemas import UserCreate, UserLogin, UserRead
+from app.utils import hash_password, verify_password
+from app.dependencies import get_admin_user
+
+# Create all tables (for development safeguard; in production use Alembic)
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="My Tech Blog")
@@ -19,14 +22,12 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 # Set up Jinja2 templates
 templates = Jinja2Templates(directory="app/templates")
 
-# Include Routers
-app.include_router(blog.router, prefix="/blog", tags=["blog"])
-app.include_router(auth.router, prefix="/auth", tags=["auth"])
+# ---------- Public Pages ----------
 
 
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
-    # Render the index page, which will load recent blog posts dynamically using HTMX
+    # Homepage with recent posts loaded via HTMX
     return templates.TemplateResponse("index.html", {"request": request})
 
 
@@ -40,6 +41,95 @@ def about_page(request: Request):
     return templates.TemplateResponse("about.html", {"request": request})
 
 
+# ---------- Authentication Pages ----------
+
+
 @app.get("/auth/login", response_class=HTMLResponse)
 def show_login_form(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
+
+
+@app.get("/auth/register", response_class=HTMLResponse)
+def show_register_form(request: Request):
+    return templates.TemplateResponse("register.html", {"request": request})
+
+
+# ---------- Authentication Routes ----------
+
+
+@app.post("/auth/register", response_model=UserRead)
+def register(user_data: UserCreate, db: Session = Depends(get_db)):
+    existing_user = db.query(User).filter(User.username == user_data.username).first()
+    if existing_user:
+        raise HTTPException(status_code=400, detail="Username already taken")
+
+    hashed = hash_password(user_data.password)
+    new_user = User(username=user_data.username, password_hash=hashed)
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return new_user
+
+
+@app.post("/auth/login")
+def login(user_data: UserLogin, response: Response, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.username == user_data.username).first()
+    if not user or not verify_password(user_data.password, user.password_hash):
+        raise HTTPException(status_code=400, detail="Invalid credentials")
+
+    # Set a simple session cookie
+    response.set_cookie(
+        key="session_user_id", value=str(user.id), httponly=True, max_age=3600
+    )
+    return {"message": "Login successful"}
+
+
+@app.post("/auth/logout")
+def logout(response: Response):
+    response.delete_cookie("session_user_id")
+    return {"message": "Logged out"}
+
+
+# ---------- Blog Routes ----------
+
+
+@app.get("/blog", response_class=HTMLResponse)
+def list_posts(request: Request, db: Session = Depends(get_db)):
+    posts = db.query(Post).order_by(Post.created_at.desc()).all()
+    return templates.TemplateResponse(
+        "blog_list.html", {"request": request, "posts": posts}
+    )
+
+
+@app.get("/blog/{slug}", response_class=HTMLResponse)
+def read_post(slug: str, request: Request, db: Session = Depends(get_db)):
+    post = db.query(Post).filter(Post.slug == slug).first()
+    if not post:
+        return HTMLResponse("Post not found", status_code=404)
+    return templates.TemplateResponse(
+        "blog_detail.html", {"request": request, "post": post}
+    )
+
+
+@app.get("/blog/create", response_class=HTMLResponse)
+def create_post_form(request: Request, admin=Depends(get_admin_user)):
+    return templates.TemplateResponse("post_create.html", {"request": request})
+
+
+@app.post("/blog/create", response_class=HTMLResponse)
+def create_post(
+    title: str = Form(...),
+    slug: str = Form(...),
+    content: str = Form(...),
+    db: Session = Depends(get_db),
+    admin=Depends(get_admin_user),
+):
+    existing_post = db.query(Post).filter(Post.slug == slug).first()
+    if existing_post:
+        raise HTTPException(status_code=400, detail="Slug already exists")
+
+    new_post = Post(title=title, slug=slug, content=content)
+    db.add(new_post)
+    db.commit()
+    db.refresh(new_post)
+    return RedirectResponse(url=f"/blog/{new_post.slug}", status_code=303)

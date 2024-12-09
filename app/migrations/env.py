@@ -1,3 +1,8 @@
+import os
+import sys
+# Calculate the path to the project's root directory from env.py's location
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+sys.path.insert(0, project_root)
 from logging.config import fileConfig
 from sqlalchemy import create_engine
 from sqlalchemy import pool

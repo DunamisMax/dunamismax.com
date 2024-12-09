@@ -2,40 +2,26 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{{ title if title else "dunamismax.com" }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anonymous Message Board</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
       rel="stylesheet"
     />
-    <!-- Use filename instead of path -->
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/custom.css') }}"
-    />
-    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
-    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <link rel="stylesheet" href="/static/css/styles.css" />
+    <script
+      src="https://unpkg.com/htmx.org@1.9.2/dist/htmx.min.js"
+      defer
+    ></script>
+    <script src="/static/js/main.js" defer></script>
   </head>
-  <body class="dark-theme">
-    <header class="site-header">
-      <div class="site-branding">
-        <a class="site-title" href="/">dunamismax.com</a>
-      </div>
-      <nav class="site-nav">
-        <a class="nav-item" href="/">Home</a>
-        <a class="nav-item" href="/about">About</a>
-        <a class="nav-item" href="/contact">Contact</a>
-        <a class="nav-item" href="/blog">Blog</a>
-      </nav>
+  <body>
+    <header>
+      <h1>Anonymous Message Board</h1>
     </header>
-
-    <main class="site-content">{% block content %}{% endblock %}</main>
-
-    <footer class="site-footer">
-      <p>
-        <strong>dunamismax.com</strong> by <a href="#">Your Name</a>.<br />
-        {{ current_year if current_year else "2024" }} - All rights reserved.
-      </p>
+    <main>{% block content %}{% endblock %}</main>
+    <footer>
+      <p>© 2024 Anonymous Message Board</p>
     </footer>
   </body>
 </html>

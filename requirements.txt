@@ -1,6 +1,4 @@
 fastapi
 uvicorn
 jinja2
-python-dotenv
-requests
-htmx
+python-multipart

@@ -1,0 +1,38 @@
+<div class="comments-container">
+  {% for comment in comments %}
+  <div class="comment-item">
+    <div class="comment-header">
+      anonymous {{ comment.timestamp.strftime("%m/%d/%Y %I:%M %p") }} -
+    </div>
+    <div class="comment-body">{{ comment.message | e }}</div>
+  </div>
+  {% else %}
+  <p>No comments yet. Be the first to post!</p>
+  {% endfor %}
+</div>
+
+{% if total_pages > 1 %}
+<div class="pagination">
+  {% if current_page > 1 %}
+  <button
+    hx-get="/comments?page={{ current_page - 1 }}"
+    hx-target="#comment-list"
+    hx-swap="innerHTML"
+  >
+    Previous
+  </button>
+  {% endif %}
+
+  <span>Page {{ current_page }} of {{ total_pages }}</span>
+
+  {% if current_page < total_pages %}
+  <button
+    hx-get="/comments?page={{ current_page + 1 }}"
+    hx-target="#comment-list"
+    hx-swap="innerHTML"
+  >
+    Next
+  </button>
+  {% endif %}
+</div>
+{% endif %}

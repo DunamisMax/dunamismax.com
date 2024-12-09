@@ -8,6 +8,7 @@
       href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap"
       rel="stylesheet"
     />
+    <!-- Use filename instead of path -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/custom.css') }}"
@@ -33,7 +34,7 @@
     <footer class="site-footer">
       <p>
         <strong>dunamismax.com</strong> by <a href="#">Your Name</a>.<br />
-        © {{ current_year if current_year else "2024" }} - All rights reserved.
+        {{ current_year if current_year else "2024" }} - All rights reserved.
       </p>
     </footer>
   </body>

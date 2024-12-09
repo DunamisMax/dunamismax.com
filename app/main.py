@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 
-app = FastAPI(title="My Tech Blog")
+app = FastAPI(title="dunamismax.com")
 
 # Serve static files (CSS, JS)
 app.mount("/static", StaticFiles(directory="app/static"), name="static")

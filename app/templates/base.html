@@ -1,80 +1,40 @@
-<!-- base.html -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{{ title if title else "My Tech Blog" }}</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
-    />
+    <title>{{ title if title else "dunamismax.com" }}</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap"
       rel="stylesheet"
     />
     <link
       rel="stylesheet"
-      href="{{ url_for('static', path='css/custom.css') }}"
+      href="{{ url_for('static', filename='css/custom.css') }}"
     />
-    <script src="{{ url_for('static', path='js/main.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
     <script src="https://unpkg.com/htmx.org@1.9.2"></script>
   </head>
-  <body>
-    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="/">
-          <strong>My Tech Blog</strong>
-        </a>
-        <a
-          role="button"
-          class="navbar-burger"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarBasicExample"
-        >
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
+  <body class="dark-theme">
+    <header class="site-header">
+      <div class="site-branding">
+        <a class="site-title" href="/">dunamismax.com</a>
       </div>
+      <nav class="site-nav">
+        <a class="nav-item" href="/">Home</a>
+        <a class="nav-item" href="/about">About</a>
+        <a class="nav-item" href="/contact">Contact</a>
+        <a class="nav-item" href="/blog">Blog</a>
+      </nav>
+    </header>
 
-      <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-start">
-          <a class="navbar-item" href="/">Home</a>
-          <a class="navbar-item" href="/blog">Blog</a>
-          <a class="navbar-item" href="/about">About</a>
-          <a class="navbar-item" href="/contact">Contact</a>
-          <!-- Remove any blog links if you don't want them -->
-        </div>
-      </div>
-    </nav>
+    <main class="site-content">{% block content %}{% endblock %}</main>
 
-    <section class="section">
-      <div class="container">{% block content %}{% endblock %}</div>
-    </section>
-
-    <footer class="footer">
-      <div class="content has-text-centered">
-        <p>
-          <strong>My Tech Blog</strong> by <a href="#">Your Name</a>.
-          <br />
-          © {{ current_year if current_year else "2024" }} - All rights
-          reserved.
-        </p>
-      </div>
+    <footer class="site-footer">
+      <p>
+        <strong>dunamismax.com</strong> by <a href="#">Your Name</a>.<br />
+        © {{ current_year if current_year else "2024" }} - All rights reserved.
+      </p>
     </footer>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const burger = document.querySelector(".navbar-burger");
-        const menu = document.querySelector("#navbarBasicExample");
-
-        burger.addEventListener("click", () => {
-          burger.classList.toggle("is-active");
-          menu.classList.toggle("is-active");
-        });
-      });
-    </script>
   </body>
 </html>

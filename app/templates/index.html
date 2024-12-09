@@ -1,52 +1,24 @@
-<!-- index.html -->
 {% extends "base.html" %} {% block content %}
-<section class="hero is-primary">
-  <div class="hero-body">
-    <p class="title">Welcome to My Tech Blog</p>
-    <p class="subtitle">
+<section class="hero-banner">
+  <div class="hero-content">
+    <h1 class="hero-title">Welcome to My Tech Blog</h1>
+    <p class="hero-subtitle">
       Sharing knowledge, insights, and tutorials on web development and beyond.
     </p>
   </div>
 </section>
 
-<div class="section">
-  <div class="columns">
-    <div class="column is-8">
-      <h2 class="title is-4">Recent Posts</h2>
-      <!-- Since no database, either remove htmx load or leave as placeholder -->
-      <div id="post-list">
-        <p>Check back later for posts!</p>
-      </div>
-    </div>
-    <div class="column is-4">
-      <div class="box">
-        <h2 class="title is-5">Search Posts</h2>
-        <form>
-          <div class="field">
-            <div class="control has-icons-left">
-              <input
-                class="input"
-                type="text"
-                placeholder="Search..."
-                name="q"
-              />
-              <span class="icon is-small is-left">
-                <i class="fas fa-search"></i>
-              </span>
-            </div>
-          </div>
-          <button class="button is-link" type="submit">Search</button>
-        </form>
-      </div>
-
-      <div class="box">
-        <h2 class="title is-5">About This Blog</h2>
-        <p>
-          This is a personal blog where I share technical tutorials, tips, and
-          experiences. Stay tuned for more updates!
-        </p>
-      </div>
-    </div>
-  </div>
+<div class="content-section">
+  <h2 class="section-title">A Place to Learn and Grow</h2>
+  <p>
+    Here you’ll find articles and thoughts on front-end development, back-end
+    architecture, DevOps practices, and the tools that power modern web apps. I
+    share what I learn as I go, hoping to help others on their journey.
+  </p>
+  <p>
+    Feel free to explore the <a href="/blog">Blog</a> for articles, check out
+    the <a href="/about">About</a> page for more on my background, or get in
+    touch through the <a href="/contact">Contact</a> page.
+  </p>
 </div>
 {% endblock %}

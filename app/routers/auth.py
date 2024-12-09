@@ -10,8 +10,6 @@ from app.config import SECRET_KEY
 
 router = APIRouter()
 
-SECRET_KEY = os.getenv("SECRET_KEY")
-
 
 @router.post("/register", response_model=UserRead)
 def register(user_data: UserCreate, db: Session = Depends(get_db)):

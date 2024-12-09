@@ -4,6 +4,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 from app.routers import blog
+from app.routers import auth
 from app.database import engine, Base
 
 # Ensure database tables are created if they don't exist yet.
@@ -20,6 +21,7 @@ templates = Jinja2Templates(directory="app/templates")
 
 # Include Routers
 app.include_router(blog.router, prefix="/blog", tags=["blog"])
+app.include_router(auth.router, prefix="/auth", tags=["auth"])
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -34,5 +36,10 @@ def contact_page(request: Request):
 
 
 @app.get("/about", response_class=HTMLResponse)
-def contact_page(request: Request):
+def about_page(request: Request):
     return templates.TemplateResponse("about.html", {"request": request})
+
+
+@app.get("/auth/login", response_class=HTMLResponse)
+def show_login_form(request: Request):
+    return templates.TemplateResponse("login.html", {"request": request})

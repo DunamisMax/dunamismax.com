@@ -1,5 +1,5 @@
+<!-- index.html -->
 {% extends "base.html" %} {% block content %}
-<!-- Hero Section -->
 <section class="hero is-primary">
   <div class="hero-body">
     <p class="title">Welcome to My Tech Blog</p>
@@ -9,24 +9,16 @@
   </div>
 </section>
 
-<!-- Search and Content Section -->
 <div class="section">
   <div class="columns">
     <div class="column is-8">
       <h2 class="title is-4">Recent Posts</h2>
-      <!-- Posts load dynamically -->
-      <div
-        id="post-list"
-        hx-get="/blog"
-        hx-trigger="load"
-        hx-target="#post-list"
-        hx-swap="innerHTML"
-      >
-        <!-- Posts will be loaded here via HTMX -->
+      <!-- Since no database, either remove htmx load or leave as placeholder -->
+      <div id="post-list">
+        <p>Check back later for posts!</p>
       </div>
     </div>
     <div class="column is-4">
-      <!-- A placeholder search form for future expansion -->
       <div class="box">
         <h2 class="title is-5">Search Posts</h2>
         <form>
@@ -47,7 +39,6 @@
         </form>
       </div>
 
-      <!-- Future sections: categories, tags, etc. -->
       <div class="box">
         <h2 class="title is-5">About This Blog</h2>
         <p>

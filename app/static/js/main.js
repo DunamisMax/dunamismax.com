@@ -4,10 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
     messageInput.focus();
   }
 
-  // Convert all comment times to local time
   convertTimesToLocal();
 
-  // Existing HTMX event listeners remain the same...
   document.body.addEventListener("htmx:afterSwap", (event) => {
     if (event.target.id === "comment-list") {
       if (messageInput) {
@@ -15,13 +13,22 @@ document.addEventListener("DOMContentLoaded", () => {
         messageInput.focus();
       }
       clearError();
-      convertTimesToLocal(); // Reconvert times after new comments load
+      convertTimesToLocal();
     }
   });
 
   document.body.addEventListener("htmx:responseError", (event) => {
-    if (event.detail.xhr.status === 400) {
+    const status = event.detail.xhr.status;
+    if (status === 400) {
       displayError("Your message cannot be empty.");
+    } else if (status === 403) {
+      displayError(
+        "Invalid request token. Please reload the page and try again."
+      );
+    } else if (status === 429) {
+      displayError(
+        "You have exceeded the rate limit. Please wait before posting again."
+      );
     } else {
       displayError("An unexpected error occurred. Please try again.");
     }
@@ -33,16 +40,20 @@ document.addEventListener("DOMContentLoaded", () => {
       const utcTime = elem.getAttribute("datetime");
       if (utcTime) {
         const dateObj = new Date(utcTime);
-        // Convert to local time string
-        const localTimeString = dateObj.toLocaleString([], {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-        });
-        elem.textContent = localTimeString;
+        if (!isNaN(dateObj.getTime())) {
+          const localTimeString = dateObj.toLocaleString([], {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          });
+          elem.textContent = localTimeString;
+        } else {
+          // If the date is invalid, provide a fallback
+          elem.textContent = "Invalid Date";
+        }
       }
     });
   }
@@ -52,9 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!errorBox) {
       errorBox = document.createElement("div");
       errorBox.id = "error-box";
-      errorBox.style.color = "#ff7575";
-      errorBox.style.margin = "1rem 0";
-      errorBox.style.textAlign = "center";
       const form = document.querySelector(".post-form");
       if (form) {
         form.insertAdjacentElement("afterend", errorBox);

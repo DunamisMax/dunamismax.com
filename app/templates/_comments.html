@@ -2,13 +2,12 @@
   {% for comment in comments %}
   <div class="comment-item">
     <div class="comment-header">
-      anonymous
+      anonymous -
       <time
         class="comment-time"
-        datetime="{{ comment.timestamp.isoformat() }}Z"
-        title="UTC time: {{ comment.timestamp.isoformat() }}Z"
+        datetime="{{ comment.timestamp.isoformat() }}"
+        title="UTC time: {{ comment.timestamp.isoformat() }}"
       >
-        <!-- Temporary fallback if JS is disabled: -->
         {{ comment.timestamp.strftime("%m/%d/%Y %I:%M %p") }} (UTC)
       </time>
       -

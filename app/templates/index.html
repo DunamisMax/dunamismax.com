@@ -2,14 +2,18 @@
 <div class="container">
   <div class="post-form">
     <form hx-post="/post-comment" hx-target="#comment-list" hx-swap="innerHTML">
-      <label for="message-input" class="sr-only">Your message</label>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+
+      <!-- Floating label and styled input -->
+      <label for="message-input" class="label">Your message</label>
       <input
         type="text"
         id="message-input"
         name="message"
-        placeholder="Type your comment..."
+        class="input"
         required
       />
+
       <button type="submit">Post</button>
     </form>
   </div>

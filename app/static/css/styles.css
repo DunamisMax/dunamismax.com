@@ -7,8 +7,8 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background: #1d1e22; /* Dark Slate */
-  color: #d4d4dc; /* Silver Fox for text */
+  background: #040406; /* Darkest background */
+  color: #f7f7f8; /* Text color */
   font-family: "Open Sans", sans-serif;
   overflow-x: hidden;
 }
@@ -25,7 +25,7 @@ header,
 footer {
   text-align: center;
   padding: 1rem;
-  background: #393f4d; /* Deep Matte Grey for contrast */
+  background-color: #181622;
   flex-shrink: 0;
 }
 
@@ -34,7 +34,7 @@ footer p {
   margin: 0;
   font-weight: 600;
   letter-spacing: 0.5px;
-  color: #d4d4dc; /* Ensure readable text color */
+  color: #f7f7f8; /* Ensure readable text */
 }
 
 /* Main Container */
@@ -57,67 +57,56 @@ main {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  background: #393f4d; /* Slight contrast from the background */
+  background: #181622; /* Third darkest to set form apart */
   padding: 1.5rem;
   border-radius: 6px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   position: relative;
 }
 
-/* Floating Label Input Styles */
+/* Input Field & Label */
 .post-form .input {
   border: none;
   width: 100%;
-  max-width: 100%;
-  background-color: rgba(
-    212,
-    212,
-    220,
-    0.1
-  ); /* A slight transparent layer of Silver Fox */
-  padding-top: 0.4rem;
-  padding-left: 0.5rem;
+  background-color: #0d0c14; /* Second darkest as input background */
+  padding: 0.8rem 0.5rem 0.5rem 0.5rem;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  border-bottom: 1.3px solid #d4d4dc; /* Silver Fox line */
-  height: 30px;
-  z-index: 1;
-  color: #d4d4dc;
+  border-bottom: 1.5px solid #f7f7f8;
+  color: #f7f7f8;
   font-size: 1rem;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .post-form .input:hover {
-  background-color: rgba(212, 212, 220, 0.2);
-  border-bottom: 1.3px solid #d4d4dc;
+  background-color: #27243b; /* Slightly lighter on hover */
+  border-bottom-color: #f7f7f8;
 }
 
 .post-form .input:focus {
-  background-color: rgba(212, 212, 220, 0.3);
-  border-bottom: 1.3px solid #feda6a; /* Are ya yellow?! accent on focus */
-  caret-color: #feda6a;
+  background-color: #27243b; /* Purple accent on focus */
+  border-bottom-color: #211f2d;
+  caret-color: #f7f7f8;
   outline: none;
-  transition: all 0.3s ease;
 }
 
 .post-form .input.error {
-  border-bottom: 1.3px solid #f86b6b;
-  box-shadow: 0 0 4px rgba(248, 107, 107, 0.4);
+  border-bottom-color: #471919; /* Error color for invalid input */
+  box-shadow: 0 0 4px rgba(44, 17, 17, 0.4);
 }
 
 .post-form .label {
   position: absolute;
-  top: 0.2rem;
+  top: 0.1rem;
   left: 0.5rem;
   font-size: 0.7rem;
-  color: #d4d4dc;
-  font-family: "Open Sans", sans-serif;
-  transition: all 0.3s ease;
+  color: #f7f7f8;
   pointer-events: none;
+  transition: all 0.3s ease;
 }
 
 .post-form .shrink-colored {
-  color: #feda6a; /* Are ya yellow?! as accent for active label */
+  color: #f7f7f8;
   font-size: 0.6rem;
   transform: translateY(-8px);
 }
@@ -125,17 +114,17 @@ main {
 .post-form .shrink-uncolored {
   font-size: 0.6rem;
   transform: translateY(-8px);
-  color: #d4d4dc;
+  color: #f7f7f8;
 }
 
 /* Post Button */
 .post-form button {
   margin-top: 1rem;
   padding: 0.75rem 1rem;
-  background: #1d1e22; /* Darker button to contrast with container */
+  background: #0d0c14; /* Button stands out but still dark */
   border: none;
   border-radius: 4px;
-  color: #d4d4dc;
+  color: #f7f7f8;
   cursor: pointer;
   font-size: 1rem;
   font-weight: 500;
@@ -144,14 +133,14 @@ main {
 }
 
 .post-form button:hover {
-  background: #2a2e33; /* Slight lighten on hover */
+  background: #27243b;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-  color: #feda6a; /* Subtle accent color on hover */
+  color: #f7f7f8;
 }
 
 /* Error Box */
 #error-box {
-  color: #f86b6b;
+  color: #2c1111; /* Error text color */
   margin: 1rem 0;
   text-align: center;
   font-weight: 500;
@@ -159,28 +148,28 @@ main {
 
 /* Comments Section */
 .comments-container {
-  margin-top: 1rem; /* Increase as desired */
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
 .comment-item {
-  background: #393f4d; /* Slightly lighter than Dark Slate */
-  padding: 1rem;
-  border-radius: 4px;
+  background: #0d0c14; /* Second darkest for comment background */
+  padding: 2rem;
+  border-radius: 6px;
   transition: background 0.3s, transform 0.3s;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
 .comment-item:hover {
-  background: #444b59; /* Slight hover change */
+  background: #181622;
   transform: translateY(-2px);
 }
 
 .comment-header {
   font-size: 0.875rem;
-  color: #d4d4dc;
+  color: #f7f7f8;
   margin-bottom: 0.5rem;
   word-break: break-word;
   display: flex;
@@ -190,12 +179,12 @@ main {
 
 .comment-header time {
   font-weight: 600;
-  color: #d4d4dc;
+  color: #f7f7f8;
 }
 
 .comment-body {
-  font-size: 1rem;
-  color: #d4d4dc;
+  font-size: 1.1rem;
+  color: #f7f7f8;
   word-break: break-word;
 }
 
@@ -209,25 +198,24 @@ main {
 }
 
 .pagination button {
-  background: #1d1e22;
+  background: #0d0c14;
   border: none;
   padding: 0.5rem 1rem;
-  color: #d4d4dc;
+  color: #f7f7f8;
   cursor: pointer;
   border-radius: 4px;
   font-size: 0.875rem;
-  transition: background 0.3s, box-shadow 0.3s, color 0.3s;
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
 .pagination button:hover {
-  background: #2a2e33;
+  background: #181622;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
-  color: #feda6a; /* Subtle accent on hover */
 }
 
 .pagination span {
   font-size: 0.875rem;
-  color: #d4d4dc;
+  color: #f7f7f8;
 }
 
 /* Accessibility & Utility Classes */
@@ -249,7 +237,7 @@ main {
 
   .input {
     font-size: 0.9rem;
-    height: 28px;
+    height: auto; /* Allow flexible height for smaller screens */
   }
 
   .comment-header,

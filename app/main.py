@@ -21,7 +21,18 @@ templates = Jinja2Templates(directory="app/templates")
 # Include Routers
 app.include_router(blog.router, prefix="/blog", tags=["blog"])
 
+
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
     # Render the index page, which will load recent blog posts dynamically using HTMX
     return templates.TemplateResponse("index.html", {"request": request})
+
+
+@app.get("/contact", response_class=HTMLResponse)
+def contact_page(request: Request):
+    return templates.TemplateResponse("contact.html", {"request": request})
+
+
+@app.get("/about", response_class=HTMLResponse)
+def contact_page(request: Request):
+    return templates.TemplateResponse("about.html", {"request": request})

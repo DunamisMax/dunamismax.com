@@ -6,6 +6,7 @@ from app.database import get_db
 from app import models
 from starlette.templating import Jinja2Templates
 from app.dependencies import get_admin_user
+from app.config import SECRET_KEY
 
 templates = Jinja2Templates(directory="app/templates")
 

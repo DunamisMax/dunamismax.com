@@ -5,12 +5,11 @@ from app.models import User
 from app.schemas import UserCreate, UserLogin, UserRead
 from app.utils import hash_password, verify_password
 from datetime import timedelta, datetime
+from app.config import SECRET_KEY
 
 router = APIRouter()
 
-SECRET_KEY = (
-    "some-very-secret-key"  # Replace with an environment variable in production
-)
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 
 @router.post("/register", response_model=UserRead)

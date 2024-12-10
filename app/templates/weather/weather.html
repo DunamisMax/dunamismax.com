@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Check the Weather</h1>
+
+<form method="post" hx-post="/weather/" hx-target="#weather-result">
+    <label for="zip_code">Enter a ZIP Code:</label>
+    <input type="text" id="zip_code" name="zip_code" placeholder="e.g. 90210" required>
+    <button type="submit">Get Weather</button>
+</form>
+
+
+<div id="weather-result" style="margin-top:20px;">
+    {% if weather_data %}
+        <h2>Weather in {{ weather_data.location }}</h2>
+        <p>Temperature: {{ weather_data.temperature }} °F</p>
+        <p>Description: {{ weather_data.description }}</p>
+    {% else %}
+        <p>Enter a ZIP code to see the current weather.</p>
+    {% endif %}
+</div>
+{% endblock %}

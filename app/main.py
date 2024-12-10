@@ -6,7 +6,7 @@ from fastapi.templating import Jinja2Templates
 import os
 
 # Import routers from routes directory
-from app.routes import chat, blog
+from app.routes import chat, blog, weather
 
 app = FastAPI()
 
@@ -45,6 +45,7 @@ app.add_middleware(SecurityHeadersMiddleware)
 # Include routers for different sections
 app.include_router(chat.router, prefix="/chat", tags=["chat"])
 app.include_router(blog.router, prefix="/blog", tags=["blog"])
+app.include_router(weather.router, prefix="/weather", tags=["weather"])
 
 
 @app.get("/", response_class=HTMLResponse)

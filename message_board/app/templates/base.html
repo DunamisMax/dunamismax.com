@@ -8,11 +8,12 @@
       href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/static/css/styles.css" />
-
-    <!-- HTMX loaded locally to comply with CSP ('script-src self') -->
-    <script src="/static/js/htmx.min.js" defer></script>
-    <script src="/static/js/main.js" defer></script>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', path='css/styles.css') }}"
+    />
+    <script src="{{ url_for('static', path='js/htmx.min.js') }}" defer></script>
+    <script src="{{ url_for('static', path='js/main.js') }}" defer></script>
   </head>
   <body>
     <header>

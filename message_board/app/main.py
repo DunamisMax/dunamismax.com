@@ -10,13 +10,22 @@ import time
 import sqlite3
 import os
 from typing import Optional
+from pathlib import Path
+
+# Determine the absolute path to the current directory (app/)
+BASE_DIR = Path(__file__).parent.resolve()
 
 app = FastAPI()
 
-# Mount static files
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
+# Hard-code the absolute paths for static and templates
+STATIC_DIR = str((BASE_DIR / "static").resolve())
+TEMPLATES_DIR = str((BASE_DIR / "templates").resolve())
 
-templates = Jinja2Templates(directory="app/templates")
+# Mount static files using the absolute path
+app.mount("/message_board/app/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+# Use absolute path for templates
+templates = Jinja2Templates(directory=TEMPLATES_DIR)
 
 # CSRF token
 CSRF_TOKEN = secrets.token_urlsafe(32)
@@ -140,9 +149,9 @@ def insert_comment(room: str, message: str):
 
 
 @app.get("/", response_class=HTMLResponse)
-async def root():
-    # Redirect to a default room, e.g. /main
-    return RedirectResponse(url="/main")
+async def root(request: Request):
+    # Use url_for to generate the URL respecting root_path
+    return RedirectResponse(url=request.url_for("index", room="main"))
 
 
 @app.get("/{room}", response_class=HTMLResponse)
@@ -176,10 +185,8 @@ async def post_comment(
     if not message:
         raise HTTPException(status_code=400, detail="Message cannot be empty")
 
-    # Insert into the database
     insert_comment(room, message)
 
-    # Return updated comments
     comments, total_pages, current_page = get_comments(room, 1)
     return templates.TemplateResponse(
         "_comments.html",

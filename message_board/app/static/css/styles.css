@@ -91,7 +91,7 @@ main {
 }
 
 .post-form .input.error {
-  border-bottom-color: #471919; /* Error color for invalid input */
+  border-bottom-color: #ff0000; /* Error color for invalid input */
   box-shadow: 0 0 4px rgba(44, 17, 17, 0.4);
 }
 
@@ -140,7 +140,7 @@ main {
 
 /* Error Box */
 #error-box {
-  color: #2c1111; /* Error text color */
+  color: #ff0000; /* Error text color */
   margin: 1rem 0;
   text-align: center;
   font-weight: 500;

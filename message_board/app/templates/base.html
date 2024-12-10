@@ -8,12 +8,10 @@
       href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
       rel="stylesheet"
     />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', path='css/styles.css') }}"
-    />
-    <script src="{{ url_for('static', path='js/htmx.min.js') }}" defer></script>
-    <script src="{{ url_for('static', path='js/main.js') }}" defer></script>
+    <!-- Hard-coded static file paths -->
+    <link rel="stylesheet" href="/chat/static/css/styles.css" />
+    <script src="/chat/static/js/htmx.min.js" defer></script>
+    <script src="/chat/static/js/main.js" defer></script>
   </head>
   <body>
     <header>

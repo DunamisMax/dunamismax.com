@@ -1,8 +1,6 @@
-from fastapi import FastAPI, Request, Form, HTTPException
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi import APIRouter, Request, Form, HTTPException
+from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from fastapi.staticfiles import StaticFiles
-from starlette.middleware.base import BaseHTTPMiddleware
 from datetime import datetime, timezone
 import math
 import secrets
@@ -11,43 +9,22 @@ import sqlite3
 import os
 from typing import Optional
 
-app = FastAPI()
-
-# Hard-coded absolute paths
-STATIC_DIR = "/home/sawyer/dunamismax.com/message_board/app/static"
-TEMPLATES_DIR = "/home/sawyer/dunamismax.com/message_board/app/templates"
-DB_PATH = "/home/sawyer/dunamismax.com/message_board/app/app.db"
-
-# Mount static files at /static
-app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+# Adjust paths as needed
+BASE_DIR = "/home/sawyer/dunamismax.com"
+APP_DIR = os.path.join(BASE_DIR, "app")
+TEMPLATES_DIR = os.path.join(APP_DIR, "templates")
+DB_PATH = os.path.join(APP_DIR, "app.db")
 
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
 
+# Global configuration for chat feature
 CSRF_TOKEN = secrets.token_urlsafe(32)
 RATE_LIMIT = 5
 TIME_WINDOW = 60.0
 request_logs = {}
 PAGE_SIZE = 100
 
-
-class SecurityHeadersMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request: Request, call_next):
-        response = await call_next(request)
-        response.headers["X-Content-Type-Options"] = "nosniff"
-        response.headers["X-Frame-Options"] = "DENY"
-        response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
-        response.headers["Content-Security-Policy"] = (
-            "default-src 'self'; "
-            "script-src 'self' 'unsafe-inline'; "
-            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
-            "font-src 'self' https://fonts.gstatic.com; "
-            "img-src 'self'; "
-            "connect-src 'self';"
-        )
-        return response
-
-
-app.add_middleware(SecurityHeadersMiddleware)
+router = APIRouter()
 
 
 def init_db():
@@ -132,17 +109,20 @@ def insert_comment(room: str, message: str):
     conn.close()
 
 
-@app.get("/", response_class=HTMLResponse)
-async def root(request: Request):
-    # Redirect from /chat -> /chat/main
-    return RedirectResponse(url="main")
+@router.get("/", response_class=HTMLResponse)
+async def chat_root(request: Request):
+    """
+    /chat
+    Redirects to /chat/main (or could render a page listing available rooms)
+    """
+    return HTMLResponse(status_code=307, headers={"Location": "main"})
 
 
-@app.get("/{room}", response_class=HTMLResponse)
-async def index(request: Request, room: str, page: int = 1):
+@router.get("/{room}", response_class=HTMLResponse)
+async def chat_index(request: Request, room: str, page: int = 1):
     comments, total_pages, current_page = get_comments(room, page)
     return templates.TemplateResponse(
-        "index.html",
+        "chat/chat_index.html",
         {
             "request": request,
             "comments": comments,
@@ -154,7 +134,7 @@ async def index(request: Request, room: str, page: int = 1):
     )
 
 
-@app.post("/{room}/post-comment", response_class=HTMLResponse)
+@router.post("/{room}/post-comment", response_class=HTMLResponse)
 async def post_comment(
     request: Request, room: str, message: str = Form(...), csrf_token: str = Form(...)
 ):
@@ -173,7 +153,7 @@ async def post_comment(
 
     comments, total_pages, current_page = get_comments(room, 1)
     return templates.TemplateResponse(
-        "_comments.html",
+        "chat/_comments.html",
         {
             "request": request,
             "comments": comments,
@@ -183,7 +163,7 @@ async def post_comment(
     )
 
 
-@app.get("/{room}/comments", response_class=HTMLResponse)
+@router.get("/{room}/comments", response_class=HTMLResponse)
 async def get_comments_endpoint(request: Request, room: str, page: int = 1):
     client_ip = request.client.host
     if is_rate_limited(client_ip):
@@ -191,7 +171,7 @@ async def get_comments_endpoint(request: Request, room: str, page: int = 1):
 
     comments, total_pages, current_page = get_comments(room, page)
     return templates.TemplateResponse(
-        "_comments.html",
+        "chat/_comments.html",
         {
             "request": request,
             "comments": comments,

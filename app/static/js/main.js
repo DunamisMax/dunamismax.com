@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const messageInput = document.getElementById("message-input");
+
+  // If on a page with a message input, focus it
   if (messageInput) {
     messageInput.focus();
   }
@@ -8,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.body.addEventListener("htmx:afterSwap", (event) => {
     if (event.target.id === "comment-list") {
+      // After HTMX updates the comment list, reset and refocus the input if present
       if (messageInput) {
         messageInput.value = "";
         messageInput.focus();
@@ -22,13 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (status === 400) {
       displayError("Your message cannot be empty.");
     } else if (status === 403) {
-      displayError(
-        "Invalid request token. Please reload the page and try again."
-      );
+      displayError("Invalid request token. Please reload the page and try again.");
     } else if (status === 429) {
-      displayError(
-        "You have exceeded the rate limit. Please wait before posting again."
-      );
+      displayError("You have exceeded the rate limit. Please wait before posting again.");
     } else {
       displayError("An unexpected error occurred. Please try again.");
     }
@@ -51,7 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
           });
           elem.textContent = localTimeString;
         } else {
-          // If the date is invalid, provide a fallback
           elem.textContent = "Invalid Date";
         }
       }

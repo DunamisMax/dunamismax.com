@@ -10,14 +10,14 @@ templates = Jinja2Templates(directory="app/templates")
 OPENWEATHER_API_KEY = os.environ.get("OPENWEATHER_API_KEY", "<YOUR_API_KEY>")
 
 
-@router.get("/")
+@router.get("")
 async def get_weather_form(request: Request):
     return templates.TemplateResponse(
         "weather/weather.html", {"request": request, "weather_data": None}
     )
 
 
-@router.post("/")
+@router.post("")
 async def post_weather(request: Request, zip_code: str = Form(...)):
     url = f"https://api.openweathermap.org/data/2.5/weather?zip={zip_code},us&units=imperial&appid={OPENWEATHER_API_KEY}"
     async with httpx.AsyncClient() as client:
